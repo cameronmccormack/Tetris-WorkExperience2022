@@ -177,6 +177,11 @@ function game() {
     //draw the block here. 
 }
 
+//function to check whether there is a full row of occupied squares.
+function checkForLines() {
+
+}
+
 //when the block has collided, then the block is set onto the grid. the grid matrix of the game is altered and a new block is created ready for the next game loop.
 function setBlock(matrix, blockRow, blockCol) {
     for (var rowIndex = 0; rowIndex < blockMatrix.length; rowIndex++) {
@@ -205,7 +210,31 @@ function setBlock(matrix, blockRow, blockCol) {
         }
     }
 
+    checkForLines();
     block = generateBlock();
+}
+
+//function to be called when the game is over
+function gameOver() {
+    //we start checking from the bottom and work our way up
+    for (let i = 19; i >= 0; i--) {
+        var flag = false;
+        for (let j = 0; j < 10; j++) {
+            if (!gridMatrix[i][j])
+                flag = true;
+        }
+        if (!flag) {//shifting the rows down if there is a full line
+            for (let row = i; row > 0; row--) {
+                for (let col = 0; col < 10; col++) {
+                    gridMatrix[row][col] = gridMatrix[row - 1][col];
+                }
+            }
+            for (let k = 0; k < 10; k++) {
+                gridMatrix[0][k] = 0;
+            }
+            row++;
+        }
+    }
 }
 
 document.addEventListener('keydown', function(e) {
@@ -239,6 +268,5 @@ document.addEventListener('keydown', function(e) {
         } else {
             block.row = tempRow;
         }
-        
     }
 })
