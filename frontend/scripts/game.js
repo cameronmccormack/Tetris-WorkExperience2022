@@ -84,9 +84,7 @@ function generateBlock() {
     }
 }
 
-function placeBlock() {
-    
-}
+
 //checks whether the block will be outside grid bounds or whether it will collide with an occupied square
 function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the other two are the row and column values in the grid for the block
     for (let row = 0; row < matrix.length; row++) {
@@ -99,7 +97,7 @@ function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the oth
     return true;
 }
 
-// Determine whether a move is valid on a given grid
+// Determine whether a move is valid on a given grid (alternative function)
 // Parameters:
 //  gridMatrix:  current grid matrix
 //  blockMatrix: The current block matrix (with rotation transformation)
@@ -115,8 +113,6 @@ function isMoveValid2(blockMatrix, blockPosition) {
             // cellIndex represents the relative y positioning of a cell
             // get actual cell
             var cell = row[cellIndex];
-            
-            console.log("cell at", cellIndex, rowIndex, "relative is", cell);
 
             if (cell == 1) {
                 // find the position of the cell on the grid
@@ -131,15 +127,10 @@ function isMoveValid2(blockMatrix, blockPosition) {
                 if (
                     !(((0 >= cellPos[0] >= 10)) && (0 >= cellPos[1] >= 20))
                 ) {
-                    console.log("out of bounds");
                     return false;
                 }
-
-                console.log("true positioning at", cellPos[0], ",", cellPos[1]);
                 
                 var cellOnGrid = gridMatrix[cellPos[0]][cellPos[1]];
-
-                console.log("cell at true pos is", cellOnGrid);
 
                 if (cellOnGrid == 1) {
                     return false;
@@ -167,12 +158,87 @@ function game() {
     for (let row = 0; row < 20; row++) {
         for (let col = 0; col < 10; col++) {
             if (gridMatrix[row][col]) {
-                context.fillStyle = COLORS[block[colour]]
+                context.fillStyle = COLORS[block[colour]]//finish making the code to draw the grid here. 
             }
         }
     }
+
+    if (++counter > 25) {//every 25 frames we force the block to move down. 
+        counter = 0; 
+        block.row++;
+
+
+        if (!isMoveValid(block.matrix, block.row, block.col)) {//if it has hit anything, we force it to be placed in that location. 
+            block.row--;
+            setBlock();
+        }
+    }
+
+    //draw the block here. 
 }
 
-function setBlock() {
-    
+//when the block has collided, then the block is set onto the grid. the grid matrix of the game is altered and a new block is created ready for the next game loop.
+function setBlock(matrix, blockRow, blockCol) {
+    for (var rowIndex = 0; rowIndex < blockMatrix.length; rowIndex++) {
+        // rowIndex represents the relative x positioning of a cell
+        // get actual row
+        var row = blockMatrix[rowIndex];
+
+        // for each cell:
+        for (var cellIndex = 0; cellIndex < row.length; cellIndex++) {
+            // cellIndex represents the relative y positioning of a cell
+            // get actual cell
+            var cell = row[cellIndex];
+
+            if (cell == 1) {
+                // find the position of the cell on the grid
+                // based on the blockPosition paramater and its position relative
+                // to the block
+                var cellPos = [
+                    blockPosition[0] + cellIndex,
+                    blockPosition[1] + rowIndex
+                ];
+
+                // modify the cell on the matrix
+                gridMatrix[cellPos[1]][cellPos[0]] = 1;
+            }
+        }
+    }
+
+    block = generateBlock();
 }
+
+document.addEventListener('keydown', function(e) {
+    if (gameEnded) return;
+
+    if (e.code === 37) {//left
+        const tempCol = block.col - 1;
+        if (isMoveValid(block.matrix, block.row, tempCol)) {
+            block.col = tempCol;
+        }
+    }
+
+    if (e.code === 39) {//right
+        const tempCol = block.col + 1;
+        if (isMoveValid(block.matrix, block.row, tempCol)) {
+            block.col = tempCol;
+        }
+    }
+
+    if (e.code === 38) {//shift and up to rotate left, only up to rotate right.
+        const tempMatrix = (e.shiftKey) ? rotateLeft(block.matrix) : rotateRight(block.matrix);
+        if (isMoveValid(tempMatrix, block.row, block.col)) {
+            block.matrix = tempMatrix;
+        }
+    }
+
+    if (e.code === 40) {//down
+        const tempRow = block.row + 1;
+        if (!isMoveValid(block.matrix, tempRow, block.col)) {
+            setBlock();
+        } else {
+            block.row = tempRow;
+        }
+        
+    }
+})
