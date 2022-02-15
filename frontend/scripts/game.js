@@ -73,15 +73,19 @@ function rotateLeft(matrix) {
 // generate colour and block randomly
 // returns (blockMatrix, colour)
 function generateBlock() {
-    let randomBlock = Math.round(Math.random() * 6);//random number from 0 to 6 to determine which block will be generated
-
+    let randomBlockIndex = Math.round(Math.random() * 6);//random number from 0 to 6 to determine which block will be generated
+    console.log("getting block at index", randomBlockIndex);
+    
+    let randomBlock = BLOCKS[randomBlockIndex];
+    console.log("got block:", randomBlock);
+    console.log(randomBlock);
+    
     let startingRow = -1;//maybe change these depending on the type of block to make sure it is centred
     let startingColumn = 5;
     
     return {
-        name: BLOCKS[randomBlock].name,
-        matrix: BLOCKS[randomBlock].matrix,
-        colour: BLOCKS[randomBlock].colour,
+        matrix: randomBlock.matrix,
+        colour: randomBlock.colour,
         row: startingRow,
         col: startingColumn
     }
@@ -161,7 +165,8 @@ function game() {
                 // if the cell is empty, 
                 context.fillStyle = gridMatrix[row][col];//TODO: finish making the code to draw the grid here. 
                 //              (posx,      posy,       sizex, sizey)
-                context.fillRect(col * size, row * size, grid, grid);
+                context.fillRect(col * size, row * size, size, size);
+                console.log("drawn");
             }
         }
     }
@@ -182,7 +187,8 @@ function game() {
 
     for (let row = 0; row < block.matrix.length; row++) {
         for (let col = 0; col < block.matrix[row].length; col++) {
-            context.fillRect(grid * (col + block.col), grid * (block.row * row), grid, grid);
+            context.fillRect(grid * (col + block.col), grid * (block.row * row), size, size);
+            console.log("drawn again");
         }
 
     }
@@ -234,20 +240,21 @@ function setBlock() {
         for (var cellIndex = 0; cellIndex < matrix[rowIndex].length; cellIndex++) {
             // cellIndex represents the relative y positioning of a cell
             // get actual cell
-            var cell = block[rowIndex][cellIndex];
+            var cell = matrix[rowIndex][cellIndex];
 
             if (cell) {
-                if (block.row + row < 0) {
+                if (block.row + rowIndex < 0) {
                     return endGame();
                 }
+                // set the cell at position to the grid's colour
+                gridMatrix[rowIndex + blockRow][cellIndex + blockCol] = block.colour;
             }
-
-            // set the cell at position to the grid's colour
-            gridMatrix[rowIndex + blockRow][cellIndex + blockCol] = block.colour;
         }
     }
     checkForLines();
     block = generateBlock();
+    console.log(block);
+    console.log(score);
 }
 
 document.addEventListener('keydown', function(e) {
@@ -282,6 +289,7 @@ document.addEventListener('keydown', function(e) {
             block.row = tempRow;
         }
     }
+    console.log("did it");
 })
 
 function endGame() {
