@@ -1,51 +1,46 @@
-const BLOCKS = {
-    1:[
-        [0,0,0,0],
-        [1,1,1,1],
-        [0,0,0,0],
-        [0,0,0,0]
-    ],
-    2:[
-        [1,0,0],
-        [1,1,1],
-        [0,0,0]
-    ],
-    3:[
-        [0,0,1],
-        [1,1,1],
-        [0,0,0]
-    ],
-    4:[
-        [1,1,0],
-        [0,1,1],
-        [0,0,0]
-    ],
-    5:[
-        [0,1,1],
-        [1,1,0],
-        [0,0,0]
-    ],
-    6:[
-        [1,1],
-        [1,1]
-    ],
-    7:[
-        [0,1,0],
-        [1,1,1],
-        [0,0,0]
-    ]
-}
+let score = 0;
+const BLOCKS = [
+    {
+        matrix:[[0,0,0,0],
+                [1,1,1,1],
+                [0,0,0,0],
+                [0,0,0,0]],
+        colour:"red",
+        name: "I-Piece"
+    },{
+        matrix:[[1,0,0],
+                [1,1,1],
+                [0,0,0]],
+        colour:"orange",
+        name: "J-Piece"
+    },{
+        matrix:[[0,0,1],
+                [1,1,1],
+                [0,0,0]],
+        colour:"yellow",
+        name: "L-Piece"
+    },{
+        matrix:[[1,1,0],
+                [0,1,1],
+                [0,0,0]],
+        colour:"green",
+        name: "Z-Piece"
+    },{
+        matrix:[[0,1,1],
+                [1,1,0],
+                [0,0,0]],
+        colour:"blue",
+        name: "S-Piece"
+    },{
+        matrix:[[0,1,0],
+                [1,1,1],
+                [0,0,0]],
+        colour:"purple",
+        name: "T-Piece"
+    }
+]
 
-const COLORS = [
-    "red",
-    "orange",
-    "yellow",
-    "green",
-    "blue",
-    "purple",
-];
-
-var gridMatrix = [];
+let gridMatrix = [];
 
 //make an empty grid
 for (let row = 0; row < 20; row++) {
@@ -69,18 +64,17 @@ function rotateLeft(matrix) {
 // generate colour and block randomly
 // returns (blockMatrix, colour)
 function generateBlock() {
-    let block = Math.floor(Math.random() * (BLOCKS.length)) + 1;
-    let colour = Math.floor(Math.random() * (COLOURS.length)) + 1;
+    let randomBlock = Math.round(Math.random() * 6);//random number from 0 to 6 to determine which block will be generated
 
-    let row = -1;
-    let column = 5;
+    let startingRow = -1;
+    let startingColumn = 5;
     
     return {
-        name: block,
-        matrix: BLOCKS.block,
-        row: row,
-        col: column,
-        colour:colour
+        name: BLOCKS[randomBlock].name,
+        matrix: BLOCKS[randomBlock].matrix,
+        colour: BLOCKS[ranodmBLock].colour,
+        row: startingRow,
+        col: startingColumn
     }
 }
 
@@ -114,7 +108,7 @@ function isMoveValid2(blockMatrix, blockPosition) {
             // get actual cell
             var cell = row[cellIndex];
 
-            if (cell == 1) {
+            if (cell != 0) {
                 // find the position of the cell on the grid
                 // based on the blockPosition paramater and its position relative
                 // to the block
@@ -132,7 +126,7 @@ function isMoveValid2(blockMatrix, blockPosition) {
                 
                 var cellOnGrid = gridMatrix[cellPos[0]][cellPos[1]];
 
-                if (cellOnGrid == 1) {
+                if (cellOnGrid != 0) {
                     return false;
                 }
             }
@@ -157,8 +151,8 @@ function game() {
     
     for (let row = 0; row < 20; row++) {
         for (let col = 0; col < 10; col++) {
-            if (gridMatrix[row][col]) {
-                context.fillStyle = COLORS[block[colour]]//finish making the code to draw the grid here. 
+            if (gridMatrix[row][col] != 0) {
+                context.fillStyle = block.colour;//TODO: finish making the code to draw the grid here. 
             }
         }
     }
@@ -174,56 +168,21 @@ function game() {
         }
     }
 
-    //draw the block here. 
+    //TODO: draw the block here. 
 }
 
-//function to check whether there is a full row of occupied squares.
+//checking if there is a full row of completed squares from the bottom up.
 function checkForLines() {
-
-}
-
-//when the block has collided, then the block is set onto the grid. the grid matrix of the game is altered and a new block is created ready for the next game loop.
-function setBlock(matrix, blockRow, blockCol) {
-    for (var rowIndex = 0; rowIndex < blockMatrix.length; rowIndex++) {
-        // rowIndex represents the relative x positioning of a cell
-        // get actual row
-        var row = blockMatrix[rowIndex];
-
-        // for each cell:
-        for (var cellIndex = 0; cellIndex < row.length; cellIndex++) {
-            // cellIndex represents the relative y positioning of a cell
-            // get actual cell
-            var cell = row[cellIndex];
-
-            if (cell == 1) {
-                // find the position of the cell on the grid
-                // based on the blockPosition paramater and its position relative
-                // to the block
-                var cellPos = [
-                    blockPosition[0] + cellIndex,
-                    blockPosition[1] + rowIndex
-                ];
-
-                // modify the cell on the matrix
-                gridMatrix[cellPos[1]][cellPos[0]] = 1;
-            }
-        }
-    }
-
-    checkForLines();
-    block = generateBlock();
-}
-
-//function to be called when the game is over
-function gameOver() {
+    let lineCounter = 0;
     //we start checking from the bottom and work our way up
     for (let i = 19; i >= 0; i--) {
-        var flag = false;
+        var zeroPresent = false;
         for (let j = 0; j < 10; j++) {
-            if (!gridMatrix[i][j])
-                flag = true;
+            if (gridMatrix[i][j] == 0)
+                zeroPresent = true;
         }
-        if (!flag) {//shifting the rows down if there is a full line
+        if (!zeroPresent) {//shifting the rows down if there is a full line
+            lineCounter++;
             for (let row = i; row > 0; row--) {
                 for (let col = 0; col < 10; col++) {
                     gridMatrix[row][col] = gridMatrix[row - 1][col];
@@ -232,13 +191,48 @@ function gameOver() {
             for (let k = 0; k < 10; k++) {
                 gridMatrix[0][k] = 0;
             }
-            row++;
+            i++;
         }
+    }
+    scoring(lineCounter);
+}
+
+function scoring(count) {
+    switch (count) {
+        case 0: break;
+        case 1: score += 40; break;
+        case 2: score += 100; break;
+        case 3: score += 300; break;
+        case 4: score += 1200; break;
     }
 }
 
+//when the block has collided, then the block is set onto the grid. the grid matrix of the game is altered and a new block is created ready for the next game loop.
+function setBlock() {
+    let matrix = block.matrix;
+    let blockRow = block.row;
+    let blockCol = block.col;
+    for (var rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
+        // for each cell:
+        for (var cellIndex = 0; cellIndex < matrix[rowIndex].length; cellIndex++) {
+            // cellIndex represents the relative y positioning of a cell
+            // get actual cell
+            var cell = block[rowIndex][cellIndex];
+
+            if (cell) {
+                if (block.row + row < 0) {
+                    return endGame();
+                }
+            }
+            gridMatrix[rowIndex + blockRow][cellIndex + blockCol] = block.colour;
+        }
+    }
+    checkForLines();
+    block = generateBlock();
+}
+
 document.addEventListener('keydown', function(e) {
-    if (gameEnded) return;
+    if (over) return;
 
     if (e.code === 37) {//left
         const tempCol = block.col - 1;
@@ -270,3 +264,9 @@ document.addEventListener('keydown', function(e) {
         }
     }
 })
+
+function endGame() {
+    over = true;
+    //TODO: api post request to send the final score (maybe time) and call to the game over page.
+    window.location.href = "";
+}
