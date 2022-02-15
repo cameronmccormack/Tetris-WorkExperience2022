@@ -74,12 +74,8 @@ function rotateLeft(matrix) {
 // generate colour and block randomly
 // returns (blockMatrix, colour)
 function generateBlock() {
-    let randomBlockIndex = Math.round(Math.random() * 6);//random number from 0 to 6 to determine which block will be generated
-    console.log("getting block at index", randomBlockIndex);
-    
+    let randomBlockIndex = Math.round(Math.random() * 6);//random number from 0 to 6 to determine which block will be generated    
     let randomBlock = BLOCKS[randomBlockIndex];
-    console.log("got block:", randomBlock);
-    console.log(randomBlock);
     
     let startingRow = -1;//maybe change these depending on the type of block to make sure it is centred
     let startingColumn = 5;
@@ -98,10 +94,10 @@ function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the oth
     for (let row = 0; row < matrix.length; row++) {
         for (let col = 0; col < matrix[row].length; col++) {
             if (matrix[row][col] && //if there is a 1
-                (col + blockCol < 0 || 
-                col + blockCol >= gridMatrix[0].length || 
-                blockRow + row >= gridMatrix.length || 
-                gridMatrix[blockRow + row][blockCol + col])) {
+                (col + blockCol < 0 ||  //if the column is on the left edge
+                col + blockCol >= gridMatrix[0].length || //if it is on the right edge
+                blockRow + row >= gridMatrix.length || //if it is at the bottom
+                gridMatrix[blockRow + row][blockCol + col])) {//if there is another occupied square
                 return false;
             }
         }
@@ -164,7 +160,7 @@ function game() {
         for (let col = 0; col < 10; col++) {
             if (gridMatrix[row][col] != 0) {
                 // if the cell is empty, 
-                context.fillStyle = gridMatrix[row][col];//TODO: finish making the code to draw the grid here. 
+                context.fillStyle = gridMatrix[row][col];//drawing the grid
                 //              (posx,      posy,       sizex, sizey)
                 context.fillRect(col * size, row * size, size, size);
                 // console.log("drawn");
@@ -183,14 +179,13 @@ function game() {
         }
     }
 
-    //TODO: draw the block that is in play here. 
+    // draw the block that is in play here. 
     context.fillStyle = block.colour;
 
     for (let row = 0; row < block.matrix.length; row++) {
         for (let col = 0; col < block.matrix[row].length; col++) {
             if (block.matrix[row][col] != 0) {
                 context.fillRect(size * (col + block.col), size * (block.row + row), size, size);
-                // console.log("drawn again");
             }
         }
 
@@ -255,9 +250,8 @@ function setBlock() {
         }
     }
     checkForLines();
-    block = generateBlock();
-    console.log(block);
     console.log(score);
+    block = generateBlock();
 }
 
 document.addEventListener( 'keydown' , e => {
@@ -293,13 +287,21 @@ document.addEventListener( 'keydown' , e => {
             block.row = tempRow;
         }
     }
-    console.log("did it");
 })
 
 function endGame() {
     over = true;
     //TODO: api post request to send the final score (maybe time) and call to the game over page.
-    window.location.href = "";
+    fetch(
+        "/submitScore", {
+            method: 'POST',
+            body: JSON.stringify({
+                "score": score,
+            })
+        }
+    );
+
+    window.open(`gameOver?score=${score}`, "_self");
 }
 
 raf = requestAnimationFrame(game);
