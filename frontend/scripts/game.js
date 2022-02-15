@@ -48,7 +48,8 @@ let raf = null;
 let counter = 0;
 const canvas = document.getElementById("grid"); //assuming they use a canvas for the grid 
 const context = canvas.getContext('2d');
-const size = 64;
+const size = 32;
+let deletingLines = false;
 
 
 //make an empty grid
@@ -154,7 +155,7 @@ function isMoveValid2(blockMatrix, blockPosition) {
     return true;
 }
 function game() {
-    console.log("game called");
+    // console.log("game called");
     raf = requestAnimationFrame(game);
     context.clearRect(0,0,canvas.width, canvas.height);//clear canvas
     
@@ -166,12 +167,12 @@ function game() {
                 context.fillStyle = gridMatrix[row][col];//TODO: finish making the code to draw the grid here. 
                 //              (posx,      posy,       sizex, sizey)
                 context.fillRect(col * size, row * size, size, size);
-                console.log("drawn");
+                // console.log("drawn");
             }
         }
     }
 
-    if (++counter > 25) {//every 25 frames we force the block to move down. 
+    if (++counter > 40) {//every 40 frames we force the block to move down. 
         counter = 0; 
         block.row++;
 
@@ -187,8 +188,10 @@ function game() {
 
     for (let row = 0; row < block.matrix.length; row++) {
         for (let col = 0; col < block.matrix[row].length; col++) {
-            context.fillRect(grid * (col + block.col), grid * (block.row * row), size, size);
-            console.log("drawn again");
+            if (block.matrix[row][col] != 0) {
+                context.fillRect(size * (col + block.col), size * (block.row + row), size, size);
+                // console.log("drawn again");
+            }
         }
 
     }
@@ -257,31 +260,32 @@ function setBlock() {
     console.log(score);
 }
 
-document.addEventListener('keydown', function(e) {
+document.addEventListener( 'keydown' , e => {
     if (over) return;
+    console.log("code", e.code);
 
-    if (e.code === 37) {//left
+    if (e.code == "ArrowLeft") {//left
         const tempCol = block.col - 1;
         if (isMoveValid(block.matrix, block.row, tempCol)) {
             block.col = tempCol;
         }
     }
 
-    if (e.code === 39) {//right
+    if (e.code == "ArrowRight") {//right
         const tempCol = block.col + 1;
         if (isMoveValid(block.matrix, block.row, tempCol)) {
             block.col = tempCol;
         }
     }
 
-    if (e.code === 38) {//shift and up to rotate left, only up to rotate right.
+    if (e.code == "ArrowUp") {//shift and up to rotate left, only up to rotate right.
         const tempMatrix = (e.shiftKey) ? rotateLeft(block.matrix) : rotateRight(block.matrix);
         if (isMoveValid(tempMatrix, block.row, block.col)) {
             block.matrix = tempMatrix;
         }
     }
 
-    if (e.code === 40) {//down
+    if (e.code == "ArrowDown") {//down
         const tempRow = block.row + 1;
         if (!isMoveValid(block.matrix, tempRow, block.col)) {
             setBlock();
