@@ -52,6 +52,7 @@ const context = canvas.getContext('2d');
 const size = 32;
 let deletingLines = false;
 let time = "";
+const uuidv4 = require("uuid/v4")
 
 
 //make an empty grid
@@ -294,13 +295,15 @@ document.addEventListener( 'keydown' , e => {
 function endGame() {
     over = true;
     //TODO: api post request to send the final score (maybe time) and call to the game over page.
+    let uid = uuidv4();
     fetch(
         "/submitScore", {
             method: 'POST',
             body: JSON.stringify({
                 "score": score,
                 "seconds": timer,
-                "timeString": time
+                "timeString": time,
+                "uid": uid
             })
         }
     );
@@ -328,5 +331,6 @@ function formatTime(timer) {
     return `${minutes_s}:${seconds_s}`;
 }
 
+//running the game.
 raf = requestAnimationFrame(game);
 incrementTimer();
