@@ -1,0 +1,34 @@
+
+@import url(https://www.dafont.com/forum/attach/orig/3/6/361154.gif?1);
+
+
+
+.heading {
+    width: 100%; 
+    margin: 0; 
+    text-align: center;
+}
+        
+
+h1 {
+    text-align: center;
+    font-size: 50px; 
+    font-family: 'Tetris', sans-serif;
+    color: yellow; 
+    margin: 17px; 
+}
+
+.heading p {
+    color: white;
+    font-family: 'Tetris', sans-serif;
+}
+
+.backbutton {
+    margin: 0;
+    color: black;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+
+}
+
+
