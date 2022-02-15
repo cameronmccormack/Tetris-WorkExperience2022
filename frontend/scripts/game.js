@@ -41,6 +41,13 @@ const BLOCKS = [
 ]
 
 let gridMatrix = [];
+let over = false;
+let block = generateBlock();
+let raf = null;
+let counter = 0;
+const canvas = document.getElementById("grid"); //assuming they use a canvas for the grid 
+const context = canvas.getContext('2d');
+
 
 //make an empty grid
 for (let row = 0; row < 20; row++) {
@@ -136,14 +143,6 @@ function isMoveValid2(blockMatrix, blockPosition) {
     // if none of the true cells have a 1 there, the move is valid
     return true;
 }
-
-let over = false;
-let block = generateBlock();
-let raf = null;
-let counter = 0;
-const canvas = document.getElementById("grid"); //assuming they use a canvas for the grid 
-const context = canvas.getContext('2d');
-
 
 function game() {
     raf = requestAnimationFrame(loop);
