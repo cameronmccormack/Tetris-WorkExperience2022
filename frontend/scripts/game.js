@@ -40,6 +40,7 @@ const BLOCKS = [
     }
 ]
 
+// gridMatrix is represented as either 0 or the colour
 let gridMatrix = [];
 let over = false;
 let block = generateBlock();
@@ -80,7 +81,7 @@ function generateBlock() {
     return {
         name: BLOCKS[randomBlock].name,
         matrix: BLOCKS[randomBlock].matrix,
-        colour: BLOCKS[ranodmBLock].colour,
+        colour: BLOCKS[randomBlock].colour,
         row: startingRow,
         col: startingColumn
     }
@@ -149,6 +150,7 @@ function isMoveValid2(blockMatrix, blockPosition) {
     return true;
 }
 function game() {
+    console.log("game called");
     raf = requestAnimationFrame(game);
     context.clearRect(0,0,canvas.width, canvas.height);//clear canvas
     
@@ -239,6 +241,8 @@ function setBlock() {
                     return endGame();
                 }
             }
+
+            // set the cell at position to the grid's colour
             gridMatrix[rowIndex + blockRow][cellIndex + blockCol] = block.colour;
         }
     }
