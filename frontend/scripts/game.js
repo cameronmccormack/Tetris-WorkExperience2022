@@ -45,11 +45,13 @@ let gridMatrix = [];
 let over = false;
 let block = generateBlock();
 let raf = null;
+var timer = 0;
 let counter = 0;
 const canvas = document.getElementById("grid"); //assuming they use a canvas for the grid 
 const context = canvas.getContext('2d');
 const size = 32;
 let deletingLines = false;
+let time = "";
 
 
 //make an empty grid
@@ -162,7 +164,7 @@ function game() {
                 // if the cell is empty, 
                 context.fillStyle = gridMatrix[row][col];//drawing the grid
                 //              (posx,      posy,       sizex, sizey)
-                context.fillRect(col * size, row * size, size, size);
+                context.fillRect(col * size, row * size, size - 0.5, size - 0.5);
                 // console.log("drawn");
             }
         }
@@ -185,7 +187,7 @@ function game() {
     for (let row = 0; row < block.matrix.length; row++) {
         for (let col = 0; col < block.matrix[row].length; col++) {
             if (block.matrix[row][col] != 0) {
-                context.fillRect(size * (col + block.col), size * (block.row + row), size, size);
+                context.fillRect(size * (col + block.col), size * (block.row + row), size - 0.5, size - 0.5);
             }
         }
 
@@ -297,11 +299,34 @@ function endGame() {
             method: 'POST',
             body: JSON.stringify({
                 "score": score,
+                "seconds": timer,
+                "timeString": time
             })
         }
     );
+    window.open(`gameOver?score=${score}&seconds=${timer}&timeString=${time}`, "_self");
+}
 
-    window.open(`gameOver?score=${score}`, "_self");
+// loop to increment timer
+function incrementTimer() {
+    setTimeout(function() {
+        timer++;
+        time = formatTime(timer);
+        console.log(time);
+        incrementTimer();
+    }, 1000);
+}
+
+// format time (in seconds) to a readable string
+function formatTime(timer) {
+    var minutes = Math.floor(timer / 60);
+    var seconds = timer % 60;
+
+    var minutes_s = (minutes < 10) ? `0${minutes}` : `${minutes}`;
+    var seconds_s = (seconds < 10) ? `0${seconds}` : `${seconds}`;
+    
+    return `${minutes_s}:${seconds_s}`;
 }
 
 raf = requestAnimationFrame(game);
+incrementTimer();
