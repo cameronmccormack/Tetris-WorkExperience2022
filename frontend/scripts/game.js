@@ -47,6 +47,7 @@ let raf = null;
 let counter = 0;
 const canvas = document.getElementById("grid"); //assuming they use a canvas for the grid 
 const context = canvas.getContext('2d');
+const size = 64;
 
 
 //make an empty grid
@@ -73,7 +74,7 @@ function rotateLeft(matrix) {
 function generateBlock() {
     let randomBlock = Math.round(Math.random() * 6);//random number from 0 to 6 to determine which block will be generated
 
-    let startingRow = -1;
+    let startingRow = -1;//maybe change these depending on the type of block to make sure it is centred
     let startingColumn = 5;
     
     return {
@@ -90,7 +91,11 @@ function generateBlock() {
 function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the other two are the row and column values in the grid for the block
     for (let row = 0; row < matrix.length; row++) {
         for (let col = 0; col < matrix[row].length; col++) {
-            if (matrix[row][col] && (col + blockCol < 0 || col + blockCol >= gridMatrix[0].length || blockRow + row >= gridMatrix.length || gridMatrix[blockRow + row][blockCol + col])) {
+            if (matrix[row][col] && //if there is a 1
+                (col + blockCol < 0 || 
+                col + blockCol >= gridMatrix[0].length || 
+                blockRow + row >= gridMatrix.length || 
+                gridMatrix[blockRow + row][blockCol + col])) {
                 return false;
             }
         }
@@ -143,15 +148,18 @@ function isMoveValid2(blockMatrix, blockPosition) {
     // if none of the true cells have a 1 there, the move is valid
     return true;
 }
-
 function game() {
-    raf = requestAnimationFrame(loop);
-    context.clearRect(0,0,canvas.width, canvas.height);
+    raf = requestAnimationFrame(game);
+    context.clearRect(0,0,canvas.width, canvas.height);//clear canvas
     
+    // draw the initial grid without the block that is currently in play
     for (let row = 0; row < 20; row++) {
         for (let col = 0; col < 10; col++) {
             if (gridMatrix[row][col] != 0) {
-                context.fillStyle = block.colour;//TODO: finish making the code to draw the grid here. 
+                // if the cell is empty, 
+                context.fillStyle = gridMatrix[row][col];//TODO: finish making the code to draw the grid here. 
+                //              (posx,      posy,       sizex, sizey)
+                context.fillRect(col * size, row * size, grid, grid);
             }
         }
     }
@@ -167,7 +175,15 @@ function game() {
         }
     }
 
-    //TODO: draw the block here. 
+    //TODO: draw the block that is in play here. 
+    context.fillStyle = block.colour;
+
+    for (let row = 0; row < block.matrix.length; row++) {
+        for (let col = 0; col < block.matrix[row].length; col++) {
+            context.fillRect(grid * (col + block.col), grid * (block.row * row), grid, grid);
+        }
+
+    }
 }
 
 //checking if there is a full row of completed squares from the bottom up.
@@ -269,3 +285,5 @@ function endGame() {
     //TODO: api post request to send the final score (maybe time) and call to the game over page.
     window.location.href = "";
 }
+
+raf = requestAnimationFrame(game);
