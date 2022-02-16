@@ -58,3 +58,7 @@
     display: flex;
     row-gap: 10px;
 }
+body{
+    background-color:rgb(241, 241, 241) ;
+    border: 10px rgb(37, 37, 37);
+}
