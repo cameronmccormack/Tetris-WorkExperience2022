@@ -1,20 +1,52 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
-
-<!--
-    This page will be for the main Tetris game.
--->
-
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
 </head>
-
-
 <body>
-    <div>
-        Hello Game!
+    <!-- Scores header -->
+    <div class="header-container">
+        <div class="scores_name">
+            
+        </div>
     </div>
-</body>
+    
+    
+    <!-- Main grid -->
+    <div class="main_scores-container">
+        <div class="scores_text">
+            <h1 class="score">Score</h1>
+        </div>
+        <div class="scores-container">
+        </div>
+        
+    </div>
+    
+    <!-- Tetris title  -->
+    <div class="main-container">
+        <div class="tetris_title-container">
+            <h1 class="tetris_title">Tetris</h1>
+        </div>
 
+        <canvas class="tetris_grid-container" id="grid"></canvas>
+    </div>
+
+    <!-- Timer stuffs -->
+    <div class="main_timer-container">
+
+        <div class="time_text-container">
+            <h1 class="time_text">Time</h1>
+        </div>
+    
+        <div class="timer-container">
+            <h1 class="time_placeholder">10</h1>
+        </div>
+    </div>
+
+
+</body>
 </html>
