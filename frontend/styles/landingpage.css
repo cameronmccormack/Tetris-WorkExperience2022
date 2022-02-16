@@ -6,7 +6,7 @@
    font-size: x-large;  
    font-weight: 200;
    width: 100%;
-   background-color: white;
+   background-color: rgb(241, 241, 241);
    margin: 10px;
 }
 .title-container {
@@ -47,7 +47,7 @@
     font-size: medium;  
     font-weight: 50;
     width: 100%;
-    background-color: white;
+    background-color: rgb(241, 241, 241);
     margin: 20px;
     display: flex;
     flex-direction: row;
