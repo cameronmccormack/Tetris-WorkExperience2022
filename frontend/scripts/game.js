@@ -53,6 +53,7 @@ let gridMatrix = [];
 let numberofblocks = 0;
 let isGameOver = false;
 let block = generateBlock();
+let nextBlock = generateBlock();
 let raf = null;//lets us cancel whatever frame the game ends on
 let timer = 0;
 let counter = 0;
@@ -230,7 +231,8 @@ function setBlock() {
     numberofblocks++;
     checkForLines();
     console.log(score);
-    block = generateBlock();
+    block = nextBlock;
+    nextBlock = generateBlock();
 }
 
 document.addEventListener( 'keydown' , e => {
