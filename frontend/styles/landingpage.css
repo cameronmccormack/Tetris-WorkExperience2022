@@ -59,8 +59,8 @@
     row-gap: 10px;
 }
 body{
-  background-color: rgb(241, 241, 241);  
-  border-top: 20px;
-  border-bottom: 20px;
-  border-color:rgb(66, 66, 66) ;
+    width: 100px;
+    background-color: rgb(241, 241, 241);  
+    border: 20px;
+    border-color:rgb(66, 66, 66) ;
 }
