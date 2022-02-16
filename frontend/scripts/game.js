@@ -212,28 +212,28 @@ document.addEventListener( 'keydown' , e => {
     if (isGameOver) return;
     console.log("code", e.code);
 
-    if (e.code == "ArrowLeft") {//left
+    if (e.code === "ArrowLeft") {//left
         const tempCol = block.col - 1;
         if (isMoveValid(block.matrix, block.row, tempCol)) {
             block.col = tempCol;
         }
     }
 
-    if (e.code == "ArrowRight") {//right
+    if (e.code === "ArrowRight") {//right
         const tempCol = block.col + 1;
         if (isMoveValid(block.matrix, block.row, tempCol)) {
             block.col = tempCol;
         }
     }
 
-    if (e.code == "ArrowUp") {//shift and up to rotate left, only up to rotate right.
+    if (e.code === "ArrowUp") {//shift and up to rotate left, only up to rotate right.
         const tempMatrix = (e.shiftKey) ? rotateLeft(block.matrix) : rotateRight(block.matrix);
         if (isMoveValid(tempMatrix, block.row, block.col)) {
             block.matrix = tempMatrix;
         }
     }
 
-    if (e.code == "ArrowDown") {//down
+    if (e.code === "ArrowDown") {//down
         const tempRow = block.row + 1;
         if (!isMoveValid(block.matrix, tempRow, block.col)) {
             setBlock();
