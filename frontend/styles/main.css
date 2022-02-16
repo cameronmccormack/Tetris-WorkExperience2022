@@ -88,6 +88,28 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     text-align: center;
     margin-right: 30px;
 }
+.block_display-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    background-color: #202020;
+    border: solid 10px;
+    border-color: white;
+}
+.block_display-title{
+    display: flex;
+    justify-content: center;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    src: url(https://fonts.gstatic.com/s/poppins/v19/pxiByp8kv8JHgFVrLDD4Z11lFc-K.woff2) format('woff2');
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    width: 120px;
+}
 
 
 /* Font stuffs */
