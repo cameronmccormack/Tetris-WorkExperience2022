@@ -2,12 +2,12 @@
 @import url(https://fonts.googleapis.com/css?family=Orbitron);
 
 .title-container {
-font-family: "Bowlby One SC";  
-font-size: x-large;  
-font-weight: 200;
-width: 100%;
-background-color: white;
-margin: 10px;
+   font-family: "Bowlby One SC";  
+   font-size: x-large;  
+   font-weight: 200;
+   width: 100%;
+   background-color: white;
+   margin: 10px;
 }
 .title-container {
     display: flex;
@@ -43,13 +43,13 @@ margin: 10px;
 }
 
 .button-container {
-font-family: "Orbitron";  
-font-size: medium;  
-font-weight: 50;
-width: 100%;
-background-color: white;
-margin: 20px;
-display: flex;
+    font-family: "Orbitron";  
+    font-size: medium;  
+    font-weight: 50;
+    width: 100%;
+    background-color: white;
+    margin: 20px;
+    display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
