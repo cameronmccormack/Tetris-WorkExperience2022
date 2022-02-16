@@ -144,6 +144,8 @@ function game() {
         }
 
     }
+    document.getElementById("score").innerHTML = score;
+    document.getElementById("timer").innerHTML = time;
 }
 
 //checking if there is a full row of completed squares from the bottom up.
@@ -248,7 +250,7 @@ function endGame() {
     cancelAnimationFrame(raf);
     //TODO: api post request to send the final score (maybe time) and call to the game over page.
     fetch(
-        "/submitScore", {
+        "/postScore", {
             method: 'POST',
             body: JSON.stringify({
                 "score": score,
