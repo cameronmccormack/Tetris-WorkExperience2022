@@ -1,8 +1,11 @@
 
-@import url(https://www.dafont.com/forum/attach/orig/3/6/361154.gif?1);
-
-
-
+ @import url('http://fonts.cdnfonts.com/css/tetris?styles=44030');
+   
+ body {
+   background-image: url('galaxy-bg.jpg');
+   
+ }
+ 
 .heading {
     width: 100%; 
     margin: 0; 
