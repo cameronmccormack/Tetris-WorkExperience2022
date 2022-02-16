@@ -2,8 +2,7 @@
  @import url('http://fonts.cdnfonts.com/css/tetris?styles=44030');
    
  body {
-   background-image: url('galaxy-bg.jpg');
-   
+   background-image: url('../images/galaxy-bg.jpg');
  }
  
 .heading {
@@ -33,5 +32,3 @@ h1 {
 
 
 }
-
-
