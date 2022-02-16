@@ -1,0 +1,64 @@
+@import url(https://fonts.googleapis.com/css?family=Bowlby+One+SC);
+@import url(https://fonts.googleapis.com/css?family=Orbitron);
+
+.title-container {
+   font-family: "Bowlby One SC";  
+   font-size: x-large;  
+   font-weight: 200;
+   width: 100%;
+   background-color: rgb(241, 241, 241);
+   margin: 10px;
+}
+.title-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    align-content: space-around;
+    display: flex;
+    row-gap: 20px;
+}
+
+.banner-red {
+    color: red;
+}
+.banner-orange {
+    color: orange;
+}
+.banner-yellow {
+    color: rgb(221, 188, 0);
+}
+.banner-green {
+    color: rgb(6, 206, 6);
+}
+.banner-turquoise {
+    color: turquoise;
+}
+.banner-blue {
+    color: blue;
+}
+.banner-purple {
+    color: rgba(149, 49, 231, 0.945);
+}
+
+.button-container {
+    font-family: "Orbitron";  
+    font-size: medium;  
+    font-weight: 50;
+    width: 100%;
+    background-color: rgb(241, 241, 241);
+    margin: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    display: flex;
+    row-gap: 10px;
+}
+body{
+    background-color:rgb(241, 241, 241) ;
+    border: 100px rgb(37, 37, 37);
+}
