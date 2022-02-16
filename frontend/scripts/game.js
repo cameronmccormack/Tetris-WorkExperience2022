@@ -42,18 +42,15 @@ const BLOCKS = [
 
 // gridMatrix is represented as either 0 or the colour
 let gridMatrix = [];
-let over = false;
+let isGameOver = false;
 let block = generateBlock();
-let raf = null;
-var timer = 0;
+let raf = null;//lets us cancel whatever frame the game ends on
+let timer = 0;
 let counter = 0;
 const canvas = document.getElementById("grid"); //assuming they use a canvas for the grid 
 const context = canvas.getContext('2d');
 const size = 32;
-let deletingLines = false;
 let time = "";
-const uuidv4 = require("uuid/v4")
-
 
 //make an empty grid
 for (let row = 0; row < 20; row++) {
@@ -91,7 +88,6 @@ function generateBlock() {
     }
 }
 
-
 //checks whether the block will be outside grid bounds or whether it will collide with an occupied square
 function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the other two are the row and column values in the grid for the block
     for (let row = 0; row < matrix.length; row++) {
@@ -108,51 +104,6 @@ function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the oth
     return true;
 }
 
-// Determine whether a move is valid on a given grid (alternative function)
-// Parameters:
-//  gridMatrix:  current grid matrix
-//  blockMatrix: The current block matrix (with rotation transformation)
-//  blockPosition: (x, y) coordinate of where the block is positioned
-function isMoveValid2(blockMatrix, blockPosition) {
-    for (var rowIndex = 0; rowIndex < blockMatrix.length; rowIndex++) {
-        // rowIndex represents the relative x positioning of a cell
-        // get actual row
-        var row = blockMatrix[rowIndex];
-
-        // for each cell:
-        for (var cellIndex = 0; cellIndex < row.length; cellIndex++) {
-            // cellIndex represents the relative y positioning of a cell
-            // get actual cell
-            var cell = row[cellIndex];
-
-            if (cell != 0) {
-                // find the position of the cell on the grid
-                // based on the blockPosition paramater and its position relative
-                // to the block
-                var cellPos = [
-                    blockPosition[0] + cellIndex,
-                    blockPosition[1] + rowIndex
-                ];
-
-                // check if out of bounds
-                if (
-                    !(((0 >= cellPos[0] >= 10)) && (0 >= cellPos[1] >= 20))
-                ) {
-                    return false;
-                }
-                
-                var cellOnGrid = gridMatrix[cellPos[0]][cellPos[1]];
-
-                if (cellOnGrid != 0) {
-                    return false;
-                }
-            }
-        }
-    }
-
-    // if none of the true cells have a 1 there, the move is valid
-    return true;
-}
 function game() {
     // console.log("game called");
     raf = requestAnimationFrame(game);
@@ -200,9 +151,9 @@ function checkForLines() {
     let lineCounter = 0;
     //we start checking from the bottom and work our way up
     for (let i = 19; i >= 0; i--) {
-        var zeroPresent = false;
+        let zeroPresent = false;
         for (let j = 0; j < 10; j++) {
-            if (gridMatrix[i][j] == 0)
+            if (gridMatrix[i][j] === 0)
                 zeroPresent = true;
         }
         if (!zeroPresent) {//shifting the rows down if there is a full line
@@ -223,11 +174,11 @@ function checkForLines() {
 
 function scoring(count) {
     switch (count) {
-        case 0: break;
         case 1: score += 40; break;
         case 2: score += 100; break;
         case 3: score += 300; break;
         case 4: score += 1200; break;
+        default: break;
     }
 }
 
@@ -236,12 +187,12 @@ function setBlock() {
     let matrix = block.matrix;
     let blockRow = block.row;
     let blockCol = block.col;
-    for (var rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
+    for (let rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
         // for each cell:
-        for (var cellIndex = 0; cellIndex < matrix[rowIndex].length; cellIndex++) {
+        for (let cellIndex = 0; cellIndex < matrix[rowIndex].length; cellIndex++) {
             // cellIndex represents the relative y positioning of a cell
             // get actual cell
-            var cell = matrix[rowIndex][cellIndex];
+            let cell = matrix[rowIndex][cellIndex];
 
             if (cell) {
                 if (block.row + rowIndex < 0) {
@@ -258,7 +209,7 @@ function setBlock() {
 }
 
 document.addEventListener( 'keydown' , e => {
-    if (over) return;
+    if (isGameOver) return;
     console.log("code", e.code);
 
     if (e.code == "ArrowLeft") {//left
@@ -293,9 +244,9 @@ document.addEventListener( 'keydown' , e => {
 })
 
 function endGame() {
-    over = true;
+    isGameOver = true;
+    cancelAnimationFrame(raf);
     //TODO: api post request to send the final score (maybe time) and call to the game over page.
-    let uid = uuidv4();
     fetch(
         "/submitScore", {
             method: 'POST',
@@ -303,7 +254,6 @@ function endGame() {
                 "score": score,
                 "seconds": timer,
                 "timeString": time,
-                "uid": uid
             })
         }
     );
@@ -322,11 +272,11 @@ function incrementTimer() {
 
 // format time (in seconds) to a readable string
 function formatTime(timer) {
-    var minutes = Math.floor(timer / 60);
-    var seconds = timer % 60;
+    let minutes = Math.floor(timer / 60);
+    let seconds = timer % 60;
 
-    var minutes_s = (minutes < 10) ? `0${minutes}` : `${minutes}`;
-    var seconds_s = (seconds < 10) ? `0${seconds}` : `${seconds}`;
+    let minutes_s = (minutes < 10) ? `0${minutes}` : `${minutes}`;
+    let seconds_s = (seconds < 10) ? `0${seconds}` : `${seconds}`;
     
     return `${minutes_s}:${seconds_s}`;
 }
