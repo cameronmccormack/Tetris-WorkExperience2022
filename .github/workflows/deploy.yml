@@ -23,5 +23,5 @@ jobs:
         run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
       - name: Deploy to heroku
-        run: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/tetris-feb2022.git HEAD:main
+        run: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/tetris-softwire.git HEAD:main
         working-directory: ./Tetris-WorkExperience2022 
