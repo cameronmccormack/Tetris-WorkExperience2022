@@ -12,15 +12,15 @@ body{
 
 
 /* title stuff */
+@import url(https://fonts.googleapis.com/css?family=Bowlby+One+SC);
 .tetris_title-container{
     display: flex;
     justify-content: center;
 }
 .tetris_title{
-    font-family: Poppins;
+    font-family: "Bowlby One SC"; 
     font-style: normal;
     font-weight: 800;
-    src: url(https://fonts.gstatic.com/s/poppins/v19/pxiByp8kv8JHgFVrLDD4Z11lFc-K.woff2) format('woff2');
     color: white;
 }
 
@@ -38,6 +38,7 @@ body{
 }
 
 /* Timer stuffs */
+@import url(https://fonts.googleapis.com/css?family=Bowlby+One+SC);
 .timer-container{
     width: 100px;
     height: 100px;
@@ -52,25 +53,24 @@ body{
 .time_text{
     display: flex;
     justify-content: center;
-    font-family: Poppins;
+    font-family: "Bowlby One SC"; 
     font-style: normal;
     font-weight: 600;
-    src: url(https://fonts.gstatic.com/s/poppins/v19/pxiByp8kv8JHgFVrLDD4Z11lFc-K.woff2) format('woff2');
     color: white;
 }
 .time_placeholder{
     text-align: center;
     display: flex;
     justify-content: center;
-    font-family: Poppins;
+    font-family: "Bowlby One SC";
     font-style: normal;
     font-weight: 600;
     font-size: 35px;
-    src: url(https://fonts.gstatic.com/s/poppins/v19/pxiByp8kv8JHgFVrLDD4Z11lFc-K.woff2) format('woff2');
     color: white;
 }
 
 /* Scores */
+@import url(https://fonts.googleapis.com/css?family=Bowlby+One+SC);
 .scores-container{
     display: flex;
     justify-content: center;
@@ -85,10 +85,9 @@ body{
 .score{
     display: flex;
     justify-content: center;
-    font-family: Poppins;
+    font-family: "Bowlby One SC";
     font-style: normal;
     font-weight: 600;
-    src: url(https://fonts.gstatic.com/s/poppins/v19/pxiByp8kv8JHgFVrLDD4Z11lFc-K.woff2) format('woff2');
     color: white;
     text-align: center;
     margin-right: 30px;

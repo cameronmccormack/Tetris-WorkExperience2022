@@ -38,6 +38,7 @@ const BLOCKS = [
         colour:"purple",
         name: "T-Piece"
     }
+    
 ]
 
 // gridMatrix is represented as either 0 or the colour
