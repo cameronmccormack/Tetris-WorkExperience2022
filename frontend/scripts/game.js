@@ -37,6 +37,13 @@ const BLOCKS = [
                 [0,0,0]],
         colour:"purple",
         name: "T-Piece"
+    },{
+        matrix:[[0,0,0,0],
+                [0,1,1,0],
+                [0,1,1,0],
+                [0,0,0,0]],
+        colour: "brown",
+        name: "O-Piece"
     }
 ]
 
