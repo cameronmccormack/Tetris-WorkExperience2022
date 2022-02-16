@@ -32,17 +32,24 @@ const getScriptDirectory = () => {
 };
 
 // Find path of static styles directory
-
 const getStylesDirectory = () => {
     const currentModuleFile = fileURLToPath(import.meta.url)
     const currentModuleDirectory = path.dirname(currentModuleFile)
     return path.join(currentModuleDirectory, '../../frontend/styles')
 }
 
+// Find path of static images directory
+const getImageDirectory = () => {
+    const currentModuleFile = fileURLToPath(import.meta.url)
+    const currentModuleDirectory = path.dirname(currentModuleFile)
+    return path.join(currentModuleDirectory, '../../frontend/images')
+}
+
 // All files in the frontend directory available at "<siteurl>/<filename>"
 app.use('/', express.static(getClientDirectory(), { extensions: ['html'] }))
 app.use('/static/styles/', express.static(getStylesDirectory()))
 app.use('/static/scripts/', express.static(getScriptDirectory()))
+app.use('/static/images/', express.static(getImageDirectory()))
 
 // API endpoints available at "<siteurl>/api/<endpoint>"
 app.use('/api', apiRouter)
