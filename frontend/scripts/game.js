@@ -87,7 +87,6 @@ function generateBlock() {
     
     let startingRow = -1;//maybe change these depending on the type of block to make sure it is centred
     let startingColumn = 5;
-    numberofblocks++;
 
     return {
         matrix: randomBlock.matrix,
@@ -227,6 +226,7 @@ function setBlock() {
             }
         }
     }
+    numberofblocks++;
     checkForLines();
     console.log(score);
     block = generateBlock();
