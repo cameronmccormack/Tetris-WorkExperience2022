@@ -232,8 +232,8 @@ function setBlock() {
     block = generateBlock();
 }
 
-document.addEventListener( 'keydown' , e => {
-    if (isGameOver) return;
+document.addEventListener("keydown", e => {
+    if (isGameOver) return; 
     console.log("code", e.code);
 
     if (e.code === "ArrowLeft") {//left
@@ -266,16 +266,19 @@ document.addEventListener( 'keydown' , e => {
         }
     }
 
-    //TODO implement hard drop
-    // if (e.code === "Space") {//spacebar 
-    //     const tempRow = block.row + 1;
-    //     if (!isMoveValid(block.matrix, tempRow, block.col)) {
-    //         setBlock();
-    //     } else {
-    //         block.row = tempRow;
-    //     }
-    // }
+    if (e.code === "Space") {//spacebar hard drop
+        while (true) {
+            const tempRow = block.row + 1;
+            if (!isMoveValid(block.matrix, tempRow, block.col)) {
+                setBlock();
+                break;
+            } else {
+                block.row = tempRow;
+            }
+        }
+    }
 })
+
 
 function endGame() {
     isGameOver = true;
