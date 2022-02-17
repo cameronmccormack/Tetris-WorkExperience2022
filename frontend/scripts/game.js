@@ -57,9 +57,13 @@ let nextBlock = generateBlock();
 let raf = null;//lets us cancel whatever frame the game ends on
 let timer = 0;
 let counter = 0;
+
 const mainGameCanvas = document.getElementById("grid"); //assuming they use a canvas for the grid 
 const mainGameContext = mainGameCanvas.getContext('2d');
 const mainGameBlockSize = 32;
+
+
+
 let time = "";
 
 //make an empty grid
