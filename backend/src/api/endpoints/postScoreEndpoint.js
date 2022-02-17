@@ -1,26 +1,7 @@
 import mongoose from 'mongoose';
-import { ScoreModel } from '../models/scoreModel'
+import ScoreModel from '../models/scoreModel.js';
 
 export const postScoreEndpoint = (req) => {
-    //Set up default mongoose connection
-    const mongoDB = 'mongodb+srv://admin:Tetris123@cluster0.ofccz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
-    mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
-
-    //Get the default connection
-    const db = mongoose.connection;
-
-    //Bind connection to error event (to get notification of connection errors)
-    db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-    let Schema = mongoose.Schema;
-
-    let ScoringSchema = new Schema({
-        uid: String,
-        user: String,
-        score: Number,
-        time: String,
-        date: { type: Date, default: Date.now() }
-    });
 
     let request = JSON.parse(JSON.stringify(req));
     
@@ -42,7 +23,7 @@ export const postScoreEndpoint = (req) => {
         "date": Date.now()
     }
 
-    const newDoc = ScoresModel.create(data);
+    const newDoc = ScoreModel.create(data);
 
     return {
         message: "doc created",

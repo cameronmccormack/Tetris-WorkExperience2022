@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import CryptoJS from 'crypto-js';
-import { UserModel } from '../models/userModel'
+import { UserModel } from '../models/userModel.js'
 
 export const signUpEndpoint = (req) => {
     //Set up default mongoose connection
@@ -55,7 +55,6 @@ export const signUpEndpoint = (req) => {
     })
 
     let hashedPw = CryptoJS.SHA256(request.password).toString(CryptoJS.enc.Hex);
-    console.log("hashed pw", hashedPw);
 
     let data = {
         "uid" : uid,
