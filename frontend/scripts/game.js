@@ -57,9 +57,9 @@ let nextBlock = generateBlock();
 let raf = null;//lets us cancel whatever frame the game ends on
 let timer = 0;
 let counter = 0;
-const canvas = document.getElementById("grid"); //assuming they use a canvas for the grid 
-const context = canvas.getContext('2d');
-const size = 32;
+const mainGameCanvas = document.getElementById("grid"); //assuming they use a canvas for the grid 
+const mainGameContext = mainGameCanvas.getContext('2d');
+const mainGameBlockSize = 32;
 let time = "";
 
 //make an empty grid
@@ -118,16 +118,16 @@ function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the oth
 function game() {
     // console.log("game called");
     raf = requestAnimationFrame(game);
-    context.clearRect(0,0,canvas.width, canvas.height);//clear canvas
+    mainGameContext.clearRect(0,0,mainGameCanvas.width, mainGameCanvas.height);//clear canvas
     
     // draw the initial grid without the block that is currently in play
     for (let row = 0; row < 20; row++) {
         for (let col = 0; col < 10; col++) {
             if (gridMatrix[row][col] != 0) {
                 // if the cell is empty, 
-                context.fillStyle = gridMatrix[row][col];//drawing the grid
+                mainGameContext.fillStyle = gridMatrix[row][col];//drawing the grid
                 //              (posx,      posy,       sizex, sizey)
-                context.fillRect(col * size, row * size, size - 0.5, size - 0.5);
+                mainGameContext.fillRect(col * mainGameBlockSize, row * mainGameBlockSize, mainGameBlockSize - 0.5, mainGameBlockSize - 0.5);
                 // console.log("drawn");
             }
         }
@@ -144,12 +144,12 @@ function game() {
     }
 
     // draw the block that is in play here. 
-    context.fillStyle = block.colour;
+    mainGameContext.fillStyle = block.colour;
 
     for (let row = 0; row < block.matrix.length; row++) {
         for (let col = 0; col < block.matrix[row].length; col++) {
             if (block.matrix[row][col] != 0) {
-                context.fillRect(size * (col + block.col), size * (block.row + row), size - 0.5, size - 0.5);
+                mainGameContext.fillRect(mainGameBlockSize * (col + block.col), mainGameBlockSize * (block.row + row), mainGameBlockSize - 0.5, mainGameBlockSize - 0.5);
             }
         }
 
