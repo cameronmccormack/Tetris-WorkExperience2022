@@ -146,7 +146,7 @@ function game() {
     for (let row = 0; row < nextBlock.matrix.length; row++) {
         for (let col = 0; col < nextBlock.matrix[row].length; col++) {
             if (nextBlock.matrix[row][col] != 0) {
-                //upcomingBlockContext.fillRect(/* put your code here */);
+                upcomingBlockContext.fillRect(col * upcomingBlockBlockSize +40, row * upcomingBlockBlockSize +40, upcomingBlockBlockSize , upcomingBlockBlockSize );
             }
         }
     }
