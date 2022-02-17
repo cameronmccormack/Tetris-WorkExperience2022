@@ -1,10 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Bowlby+One+SC);
 @import url(https://fonts.googleapis.com/css?family=Orbitron);
 
+html, body {margin: 0; height: 100%; overflow: hidden}
+
 .title-container {
    font-family: "Bowlby One SC";  
-   font-size: x-large;  
-   font-weight: 200;
+   font-size: xx-large;  
+   font-weight: 300;
    width: 100%;
    margin: 10px;
 }
@@ -43,21 +45,33 @@
 
 .button-container {
     font-family: "Orbitron";  
-    font-size: medium;  
-    font-weight: 50;
+    font-size: large;  
+    font-weight: 200;
     width: 100%;
     
-    margin: 20px;
+    margin: 30px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    align-content: center;
+    align-content: space-around;
     display: flex;
-    row-gap: 10px;
+    row-gap: 10px 30px;
 }
 body{
     border: 100px rgb(37, 37, 37);
-    background-image: url('../images/galaxy-bg.jpg');
+    background-image: url(https://www.pixelstalk.net/wp-content/uploads/images1/HD-Tetris-Pictures-free.png);
+    background-size: cover;
 }
+
+a:link {
+    color: white
+}
+
+a:visited {
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    text-decoration: none;
+}
+    

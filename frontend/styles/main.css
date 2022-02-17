@@ -19,12 +19,14 @@ body{
 }
 .tetris_title{
     font-family: "Bowlby One SC"; 
+    font-size: xx-large;
     font-style: normal;
     font-weight: 800;
     color: white;
 }
 
 /* main grid (canvas)*/
+html, body {margin: 0; height: 100%; overflow: hidden}
 .tetris_grid-container{
     background-color: #202020;
     border: solid 10px;
