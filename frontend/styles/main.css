@@ -26,15 +26,9 @@ body{
 
 /* main grid (canvas)*/
 .tetris_grid-container{
-    width: 300px;
-    height: 600px;
     background-color: #202020;
     border: solid 10px;
     border-color: white;
-    display: flex;
-    flex-wrap: wrap;
-    grid-template-rows: auto;
-    grid-template-columns: repeat(10, 2fr);
 }
 
 /* Timer stuffs */
