@@ -1,3 +1,5 @@
+import { apiMessageSender } from './api/apiMessageSender.js';
+
 let score = 0;
 const BLOCKS = [
     {
@@ -105,7 +107,6 @@ function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the oth
 }
 
 function game() {
-    // console.log("game called");
     raf = requestAnimationFrame(game);
     context.clearRect(0,0,canvas.width, canvas.height);//clear canvas
     
@@ -117,7 +118,6 @@ function game() {
                 context.fillStyle = gridMatrix[row][col];//drawing the grid
                 //              (posx,      posy,       sizex, sizey)
                 context.fillRect(col * size, row * size, size - 0.5, size - 0.5);
-                // console.log("drawn");
             }
         }
     }
@@ -206,13 +206,11 @@ function setBlock() {
         }
     }
     checkForLines();
-    console.log(score);
     block = generateBlock();
 }
 
 document.addEventListener( 'keydown' , e => {
     if (isGameOver) return;
-    console.log("code", e.code);
 
     if (e.code === "ArrowLeft") {//left
         const tempCol = block.col - 1;
@@ -248,17 +246,17 @@ document.addEventListener( 'keydown' , e => {
 function endGame() {
     isGameOver = true;
     cancelAnimationFrame(raf);
-    //TODO: api post request to send the final score (maybe time) and call to the game over page.
-    fetch(
-        "/postScore", {
-            method: 'POST',
-            body: JSON.stringify({
-                "score": score,
-                "seconds": timer,
-                "timeString": time,
-            })
-        }
-    );
+    let loggedIn = false;
+    
+    apiMessageSender.post('/postScore', {
+        "score": score,
+        "seconds": timer,
+        "timeString": time,
+        "loggedIn" : loggedIn,
+        "user" : "",
+        "uid" : ""
+    });
+
     window.open(`gameOver?score=${score}&seconds=${timer}&timeString=${time}`, "_self");
 }
 
@@ -267,7 +265,6 @@ function incrementTimer() {
     setTimeout(function() {
         timer++;
         time = formatTime(timer);
-        console.log(time);
         incrementTimer();
     }, 1000);
 }

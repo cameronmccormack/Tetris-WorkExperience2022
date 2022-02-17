@@ -13,9 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "mongodb": "^4.3.1",
-    "realm": "^10.13.0",
-    "realm-web": "^1.7.0"
+    "mongoose": "^6.2.2"
   },
   "devDependencies": {
     "ava": "^3.13.0",
