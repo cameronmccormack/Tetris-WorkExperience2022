@@ -65,6 +65,12 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     color: white;
 }
 
+#current_game_time{
+    color:white;
+    margin-top: 40px;
+    margin-left: 30px;
+}
+
 /* Scores */
 @import url(https://fonts.googleapis.com/css?family=Bowlby+One+SC);
 .scores-container{
@@ -88,6 +94,8 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     text-align: center;
     margin-right: 30px;
 }
+
+
 
 
 /* Font stuffs */

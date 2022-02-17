@@ -20,27 +20,26 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     display: flex;
     row-gap: 20px;
 }
-
-.banner-red {
-    color: red;
-}
-.banner-orange {
-    color: orange;
-}
-.banner-yellow {
-    color: rgb(221, 188, 0);
+.banner-blue {
+    color: blue;
 }
 .banner-green {
     color: rgb(6, 206, 6);
 }
-.banner-turquoise {
-    color: turquoise;
-}
-.banner-blue {
-    color: blue;
+.banner-yellow {
+    color: rgb(221, 188, 0);
 }
 .banner-purple {
     color: rgba(149, 49, 231, 0.945);
+}
+.banner-turquoise {
+    color: turquoise;
+}
+.banner-orange {
+    color: orange;
+}
+.banner-red {
+    color: red;
 }
 
 .button-container {

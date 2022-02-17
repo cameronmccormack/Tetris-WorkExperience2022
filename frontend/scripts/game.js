@@ -5,31 +5,31 @@ const BLOCKS = [
                 [1,1,1,1],
                 [0,0,0,0],
                 [0,0,0,0]],
-        colour:"red",
+        colour:"turquoise",
         name: "I-Piece"
     },{
         matrix:[[1,0,0],
                 [1,1,1],
                 [0,0,0]],
-        colour:"orange",
+        colour:"blue",
         name: "J-Piece"
     },{
         matrix:[[0,0,1],
                 [1,1,1],
                 [0,0,0]],
-        colour:"yellow",
+        colour:"orange",
         name: "L-Piece"
     },{
         matrix:[[1,1,0],
                 [0,1,1],
                 [0,0,0]],
-        colour:"green",
+        colour:"red",
         name: "Z-Piece"
     },{
         matrix:[[0,1,1],
                 [1,1,0],
                 [0,0,0]],
-        colour:"blue",
+        colour:"green",
         name: "S-Piece"
     },{
         matrix:[[0,1,0],
@@ -42,7 +42,7 @@ const BLOCKS = [
                 [0,1,1,0],
                 [0,1,1,0],
                 [0,0,0,0]],
-        colour: "brown",
+        colour: "yellow",
         name: "O-Piece"
     }
     
@@ -60,6 +60,7 @@ const canvas = document.getElementById("grid"); //assuming they use a canvas for
 const context = canvas.getContext('2d');
 const size = 32;
 let time = "";
+const currentGameTime = document.getElementById("current_game_time");
 
 //make an empty grid
 for (let row = 0; row < 20; row++) {
@@ -83,7 +84,7 @@ function rotateLeft(matrix) {
 // generate colour and block randomly
 // returns (blockMatrix, colour)
 function generateBlock() {
-    let randomBlockIndex = Math.round(Math.random() * 6);//random number from 0 to 6 to determine which block will be generated    
+    let randomBlockIndex = Math.round(Math.random() * 7);//random number from 0 to 7 to determine which block will be generated    
     let randomBlock = BLOCKS[randomBlockIndex];
     
     let startingRow = -1;//maybe change these depending on the type of block to make sure it is centred
@@ -158,8 +159,8 @@ function game() {
 function getFramesUntilMoveDown(numberOfBlocks) {
     //you can edit the rate of speed increase here (increases as number of blocks increase)
     let maxframes = 40; //starting speed
-    let minframes = 5; //fastest speed
-    let multiplier = 0.5; //rate of speedup
+    let minframes = 10; //fastest speed
+    let multiplier = 0.05; //rate of speedup
     let newframes = Math.ceil(maxframes - (numberOfBlocks*numberOfBlocks*multiplier))
     if (newframes < minframes){
         console.log(newframes)
@@ -266,16 +267,6 @@ document.addEventListener( 'keydown' , e => {
             block.row = tempRow;
         }
     }
-
-    //TODO implement hard drop
-    // if (e.code === "Space") {//spacebar 
-    //     const tempRow = block.row + 1;
-    //     if (!isMoveValid(block.matrix, tempRow, block.col)) {
-    //         setBlock();
-    //     } else {
-    //         block.row = tempRow;
-    //     }
-    // }
 })
 
 function endGame() {
@@ -300,20 +291,25 @@ function incrementTimer() {
     setTimeout(function() {
         timer++;
         time = formatTime(timer);
+        currentGameTime.innerHTML = time;
         console.log(time);
         incrementTimer();
     }, 1000);
 }
 
-// format time (in seconds) to a readable string
-function formatTime(timer) {
-    let minutes = Math.floor(timer / 60);
-    let seconds = timer % 60;
+function formatTime(timeInSeconds) {
+    let numberOfMinutes = Math.floor(timeInSeconds / 60).toString();
+    let numberOfSeconds = (timeInSeconds % 60).toString();
 
-    let minutes_s = (minutes < 10) ? `0${minutes}` : `${minutes}`;
-    let seconds_s = (seconds < 10) ? `0${seconds}` : `${seconds}`;
-    
-    return `${minutes_s}:${seconds_s}`;
+    if (numberOfMinutes.length < 2) {
+        numberOfMinutes = "0" + numberOfMinutes;
+    }
+
+    if (numberOfSeconds.length < 2) {
+        numberOfSeconds = "0" + numberOfSeconds;
+    }
+
+    return `${numberOfMinutes}:${numberOfSeconds}`
 }
 
 //running the game.
