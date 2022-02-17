@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { ScoreModel } from '../models/scoreModel'
 
 export const postScoreEndpoint = (req) => {
     //Set up default mongoose connection
@@ -21,16 +22,11 @@ export const postScoreEndpoint = (req) => {
         date: { type: Date, default: Date.now() }
     });
 
-    // erroneous line overwrites an already compiled model
-    let ScoresModel = mongoose.model('Scores', ScoringSchema, 'Scores');
-    // module.exports =
-    //     mongoose.models.Scores || mongoose.model('')
-
     let request = JSON.parse(JSON.stringify(req));
     
     let uid = "";
     let user = "";
-    if (request.loggedIn) {
+    if (!request.loggedIn) {
         user = "anon"; 
         uid = Math.round(Math.random() * 10000000);
     } else {
