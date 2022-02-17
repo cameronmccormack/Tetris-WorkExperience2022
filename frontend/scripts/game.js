@@ -58,11 +58,13 @@ let raf = null;//lets us cancel whatever frame the game ends on
 let timer = 0;
 let counter = 0;
 
-const mainGameCanvas = document.getElementById("grid"); //assuming they use a canvas for the grid 
+const mainGameCanvas = document.getElementById("grid");
 const mainGameContext = mainGameCanvas.getContext('2d');
 const mainGameBlockSize = 32;
 
-
+const upcomingBlockCanvas = document.getElementById("upcoming_block");
+const upcomingBlockContext = upcomingBlockCanvas.getContext('2d');
+const upcomingBlockBlockSize = 8;
 
 let time = "";
 
@@ -123,6 +125,7 @@ function game() {
     // console.log("game called");
     raf = requestAnimationFrame(game);
     mainGameContext.clearRect(0,0,mainGameCanvas.width, mainGameCanvas.height);//clear canvas
+    upcomingBlockContext.clearRect(0, 0, upcomingBlockCanvas.width, upcomingBlockCanvas.height);
     
     // draw the initial grid without the block that is currently in play
     for (let row = 0; row < 20; row++) {
@@ -133,6 +136,17 @@ function game() {
                 //              (posx,      posy,       sizex, sizey)
                 mainGameContext.fillRect(col * mainGameBlockSize, row * mainGameBlockSize, mainGameBlockSize - 0.5, mainGameBlockSize - 0.5);
                 // console.log("drawn");
+            }
+        }
+    }
+
+    // draw the upcoming block
+    upcomingBlockContext.fillStyle = nextBlock.colour;
+
+    for (let row = 0; row < nextBlock.matrix.length; row++) {
+        for (let col = 0; col < nextBlock.matrix[row].length; col++) {
+            if (nextBlock.matrix[row][col] != 0) {
+                //upcomingBlockContext.fillRect(/* put your code here */);
             }
         }
     }
@@ -156,7 +170,6 @@ function game() {
                 mainGameContext.fillRect(mainGameBlockSize * (col + block.col), mainGameBlockSize * (block.row + row), mainGameBlockSize - 0.5, mainGameBlockSize - 0.5);
             }
         }
-
     }
 }
 
