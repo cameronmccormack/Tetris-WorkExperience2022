@@ -39,11 +39,19 @@ const BLOCKS = [
                 [0,0,0]],
         colour:"purple",
         name: "T-Piece"
+    },{
+        matrix:[[0,0,0,0],
+                [0,1,1,0],
+                [0,1,1,0],
+                [0,0,0,0]],
+        colour: "brown",
+        name: "O-Piece"
     }
 ]
 
 // gridMatrix is represented as either 0 or the colour
 let gridMatrix = [];
+let numberofblocks = 0;
 let isGameOver = false;
 let block = generateBlock();
 let raf = null;//lets us cancel whatever frame the game ends on
@@ -81,7 +89,7 @@ function generateBlock() {
     
     let startingRow = -1;//maybe change these depending on the type of block to make sure it is centred
     let startingColumn = 5;
-    
+
     return {
         matrix: randomBlock.matrix,
         colour: randomBlock.colour,
@@ -89,6 +97,7 @@ function generateBlock() {
         col: startingColumn
     }
 }
+
 
 //checks whether the block will be outside grid bounds or whether it will collide with an occupied square
 function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the other two are the row and column values in the grid for the block
@@ -122,10 +131,9 @@ function game() {
         }
     }
 
-    if (++counter > 40) {//every 40 frames we force the block to move down. 
+    if (++counter > getFramesUntilMoveDown(numberofblocks)) {// every given frames, block to moves down. 
         counter = 0; 
-        block.row++;
-
+        block.row++; 
 
         if (!isMoveValid(block.matrix, block.row, block.col)) {//if it has hit anything, we force it to be placed in that location. 
             block.row--;
@@ -146,6 +154,21 @@ function game() {
     }
     document.getElementById("score").innerHTML = score;
     document.getElementById("timer").innerHTML = time;
+}
+
+function getFramesUntilMoveDown(numberOfBlocks) {
+    //you can edit the rate of speed increase here (increases as number of blocks increase)
+    let maxframes = 40; //starting speed
+    let minframes = 5; //fastest speed
+    let multiplier = 0.5; //rate of speedup
+    let newframes = Math.ceil(maxframes - (numberOfBlocks*numberOfBlocks*multiplier))
+    if (newframes < minframes){
+        console.log(newframes)
+        return minframes;
+    }
+    
+    return newframes; 
+
 }
 
 //checking if there is a full row of completed squares from the bottom up.
@@ -205,6 +228,7 @@ function setBlock() {
             }
         }
     }
+    numberofblocks++;
     checkForLines();
     block = generateBlock();
 }
@@ -241,6 +265,16 @@ document.addEventListener( 'keydown' , e => {
             block.row = tempRow;
         }
     }
+
+    //TODO implement hard drop
+    // if (e.code === "Space") {//spacebar 
+    //     const tempRow = block.row + 1;
+    //     if (!isMoveValid(block.matrix, tempRow, block.col)) {
+    //         setBlock();
+    //     } else {
+    //         block.row = tempRow;
+    //     }
+    // }
 })
 
 function endGame() {
