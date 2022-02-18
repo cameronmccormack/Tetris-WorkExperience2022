@@ -7,6 +7,8 @@ $('#signIn-form').on('submit', function(e) {
     } else {
         alert("The username or password is wrong.")
     }
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
     return false;
 });
 

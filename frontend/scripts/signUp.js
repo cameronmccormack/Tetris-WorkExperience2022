@@ -8,7 +8,8 @@ $('#signup-form').on('submit', function(e) {
     });
 
     setUserCookies(document.getElementById("username").value);
-
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
     return false;
 });
 
