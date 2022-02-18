@@ -1,0 +1,49 @@
+
+
+body{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333333;
+    
+}
+main{
+    font-family: poppins;
+    text-align: center;
+    padding: 50px;
+}
+.leaderboard_background{
+    width: 350px;
+    height: 700px;
+    background-color: #222222;
+}
+.leaderboard-container{
+    display: flex;
+    color: white;
+    border: solid 10px;
+}
+.Rankings{
+    list-style: none;
+}
+ul, li{
+    padding: 0;
+    line-height: 30px;
+    list-style-type: none;
+}
+
+.button{
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 350px 3px;
+}
+
+a, a::before, a::after{
+    text-decoration: none;
+    color: black;
+}
