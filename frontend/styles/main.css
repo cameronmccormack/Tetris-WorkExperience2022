@@ -13,7 +13,21 @@ body{
 *{
     box-sizing: border-box;
 }
+/*touch*/
 /* DO NOT TOUCH */
+
+/* buttons */
+
+.options-container{
+    align-content: flex-start;
+    justify-content: flex-start;
+}
+
+.rules-button{
+    font-style: normal;
+    font-weight: 800;
+    color: white;
+}
 
 
 
@@ -21,7 +35,9 @@ body{
 @import url(https://fonts.googleapis.com/css?family=Bowlby+One+SC);
 .tetris_title-container{
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    
 }
 .tetris_title{
     font-family: "Bowlby One SC"; 
@@ -29,6 +45,16 @@ body{
     font-style: normal;
     font-weight: 800;
     color: white;
+}
+
+#pause_text {
+    font-family: "Bowlby One SC"; 
+    font-size: large;
+    font-style: normal;
+    font-weight: 800;
+    color: red;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 /* main grid (canvas)*/
