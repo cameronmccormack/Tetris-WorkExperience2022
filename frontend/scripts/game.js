@@ -153,8 +153,6 @@ function game() {
         }
 
     }
-    document.getElementById("score").innerHTML = score;
-    document.getElementById("timer").innerHTML = time;
 }
 
 function getFramesUntilMoveDown(numberOfBlocks) {
