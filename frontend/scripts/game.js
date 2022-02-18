@@ -70,6 +70,7 @@ const upcomingBlockBlockSize = 20;
 
 let time = "";
 const currentGameTime = document.getElementById("current_game_time");
+const currentScore = document.getElementById("score");
 
 //make an empty grid
 for (let row = 0; row < 20; row++) {
@@ -182,8 +183,8 @@ function getFramesUntilMoveDown(numberOfBlocks) {
     //you can edit the rate of speed increase here (increases as number of blocks increase)
     let maxframes = 40; //starting speed
     let minframes = 10; //fastest speed
-    let multiplier = 0.05; //rate of speedup
-    let newframes = Math.ceil(maxframes - (numberOfBlocks*numberOfBlocks*multiplier))
+    let multiplier = 0.1; //rate of speedup
+    let newframes = Math.ceil(maxframes - (numberOfBlocks*multiplier))
     if (newframes < minframes){
         console.log(newframes)
         return minframes;
@@ -219,6 +220,10 @@ function checkForLines() {
     scoring(lineCounter);
 }
 
+// Plan for development:
+//   1. Make the scoring element on the game page show the value of score whenever it is updated
+//   2. Take a look at the scoring system and decide if you're happy with it
+
 function scoring(count) {
     switch (count) {
         case 1: score += 40; break;
@@ -227,6 +232,8 @@ function scoring(count) {
         case 4: score += 1200; break;
         default: break;
     }
+
+    currentScore.innerHTML = score;
 }
 
 //when the block has collided, then the block is set onto the grid. the grid matrix of the game is altered and a new block is created ready for the next game loop.
