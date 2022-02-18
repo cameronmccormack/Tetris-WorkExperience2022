@@ -9,7 +9,16 @@
 </head>
 <body>
 
-    
+    <!-- additional buttons -->
+    <div class="options-container">
+        <div class="rules-button">
+        <button><a href="howtoplay.html" target="_blank"><h1>How to play</h1></a></button>
+        </div>
+        <div class="back-main-button">
+            <button><a href="landingpage.html" target="_self"><h1>Back to main</h1></a></button>
+        </div>
+    </div>
+ 
     <!-- Scores header -->
     <div class="header-container">
         <div class="scores_name">
@@ -39,8 +48,8 @@
     <div class="main-container">
         <div class="tetris_title-container">
             <h1 class="tetris_title">Tetris</h1>
+            <p id="pause_text">Game in progress!</p>
         </div>
-
         <canvas class="tetris_grid-container" id="grid" width="320px" height="640px"></canvas>
         <script src="static/scripts/game.js"></script>
     </div>

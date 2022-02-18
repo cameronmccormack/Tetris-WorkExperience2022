@@ -68,6 +68,9 @@ const upcomingBlockBlockSize = 20;
 
 let time = "";
 
+let isGamePaused = false;
+const pausedLabel = document.getElementById('pause_text');
+
 //make an empty grid
 for (let row = 0; row < 20; row++) {
     gridMatrix[row] = [];
@@ -124,54 +127,57 @@ function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the oth
 function game() {
     // console.log("game called");
     raf = requestAnimationFrame(game);
-    mainGameContext.clearRect(0,0,mainGameCanvas.width, mainGameCanvas.height);//clear canvas
-    upcomingBlockContext.clearRect(0, 0, upcomingBlockCanvas.width, upcomingBlockCanvas.height);
-    
-    // draw the initial grid without the block that is currently in play
-    for (let row = 0; row < 20; row++) {
-        for (let col = 0; col < 10; col++) {
-            if (gridMatrix[row][col] != 0) {
-                // if the cell is empty, 
-                mainGameContext.fillStyle = gridMatrix[row][col];//drawing the grid
-                //              (posx,      posy,       sizex, sizey)
-                mainGameContext.fillRect(col * mainGameBlockSize, row * mainGameBlockSize, mainGameBlockSize - 0.5, mainGameBlockSize - 0.5);
-                // console.log("drawn");
+
+    if (!isGamePaused) {
+        mainGameContext.clearRect(0,0,mainGameCanvas.width, mainGameCanvas.height);//clear canvas
+        upcomingBlockContext.clearRect(0, 0, upcomingBlockCanvas.width, upcomingBlockCanvas.height);
+        
+        // draw the initial grid without the block that is currently in play
+        for (let row = 0; row < 20; row++) {
+            for (let col = 0; col < 10; col++) {
+                if (gridMatrix[row][col] != 0) {
+                    // if the cell is empty, 
+                    mainGameContext.fillStyle = gridMatrix[row][col];//drawing the grid
+                    //              (posx,      posy,       sizex, sizey)
+                    mainGameContext.fillRect(col * mainGameBlockSize, row * mainGameBlockSize, mainGameBlockSize - 0.5, mainGameBlockSize - 0.5);
+                    // console.log("drawn");
+                }
             }
         }
-    }
 
-    // draw the upcoming block
-    upcomingBlockContext.fillStyle = nextBlock.colour;
+        // draw the upcoming block
+        upcomingBlockContext.fillStyle = nextBlock.colour;
 
-    for (let row = 0; row < nextBlock.matrix.length; row++) {
-        for (let col = 0; col < nextBlock.matrix[row].length; col++) {
-            if (nextBlock.matrix[row][col] != 0) {
-                upcomingBlockContext.fillRect(
-                    col * upcomingBlockBlockSize +20,
-                     row * upcomingBlockBlockSize +30, 
-                     upcomingBlockBlockSize, 
-                    upcomingBlockBlockSize );
+        for (let row = 0; row < nextBlock.matrix.length; row++) {
+            for (let col = 0; col < nextBlock.matrix[row].length; col++) {
+                if (nextBlock.matrix[row][col] != 0) {
+                    upcomingBlockContext.fillRect(
+                        col * upcomingBlockBlockSize +20,
+                        row * upcomingBlockBlockSize +30, 
+                        upcomingBlockBlockSize, 
+                        upcomingBlockBlockSize );
+                }
             }
         }
-    }
 
-    if (++counter > getFramesUntilMoveDown(numberofblocks)) {// every given frames, block to moves down. 
-        counter = 0; 
-        block.row++; 
+        if (++counter > getFramesUntilMoveDown(numberofblocks)) {// every given frames, block to moves down. 
+            counter = 0; 
+            block.row++; 
 
-        if (!isMoveValid(block.matrix, block.row, block.col)) {//if it has hit anything, we force it to be placed in that location. 
-            block.row--;
-            setBlock();
+            if (!isMoveValid(block.matrix, block.row, block.col)) {//if it has hit anything, we force it to be placed in that location. 
+                block.row--;
+                setBlock();
+            }
         }
-    }
 
-    // draw the block that is in play here. 
-    mainGameContext.fillStyle = block.colour;
+        // draw the block that is in play here. 
+        mainGameContext.fillStyle = block.colour;
 
-    for (let row = 0; row < block.matrix.length; row++) {
-        for (let col = 0; col < block.matrix[row].length; col++) {
-            if (block.matrix[row][col] != 0) {
-                mainGameContext.fillRect(mainGameBlockSize * (col + block.col), mainGameBlockSize * (block.row + row), mainGameBlockSize - 0.5, mainGameBlockSize - 0.5);
+        for (let row = 0; row < block.matrix.length; row++) {
+            for (let col = 0; col < block.matrix[row].length; col++) {
+                if (block.matrix[row][col] != 0) {
+                    mainGameContext.fillRect(mainGameBlockSize * (col + block.col), mainGameBlockSize * (block.row + row), mainGameBlockSize - 0.5, mainGameBlockSize - 0.5);
+                }
             }
         }
     }
@@ -299,6 +305,16 @@ document.addEventListener("keydown", e => {
             } else {
                 block.row = tempRow;
             }
+        }
+    }
+
+    if (e.code === "KeyP") {
+        isGamePaused = !isGamePaused;
+
+        if (isGamePaused) {
+            pausedLabel.innerHTML = "Paused...";
+        } else {
+            pausedLabel.innerHTML = "Game in progress!"
         }
     }
 })
