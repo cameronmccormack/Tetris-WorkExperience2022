@@ -25,3 +25,19 @@ h1 {
     color: papayawhip; 
     margin: 17px; 
 }
+
+input[type=submit] {
+    width: 300px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #3266c7;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+input[type=submit]:hover {
+    background-color: #5583d8;
+}
