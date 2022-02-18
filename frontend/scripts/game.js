@@ -84,7 +84,7 @@ function rotateLeft(matrix) {
 // generate colour and block randomly
 // returns (blockMatrix, colour)
 function generateBlock() {
-    let randomBlockIndex = Math.round(Math.random() * 7);//random number from 0 to 7 to determine which block will be generated    
+    let randomBlockIndex = Math.round(Math.random() * 6);//random number from 0 to 6 to determine which block will be generated    
     let randomBlock = BLOCKS[randomBlockIndex];
     
     let startingRow = -1;//maybe change these depending on the type of block to make sure it is centred
