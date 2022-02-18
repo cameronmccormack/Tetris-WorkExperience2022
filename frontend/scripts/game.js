@@ -1,3 +1,5 @@
+import { apiMessageSender } from './api/apiMessageSender.js';
+
 let score = 0;
 const BLOCKS = [
     {
@@ -53,12 +55,19 @@ let gridMatrix = [];
 let numberofblocks = 0;
 let isGameOver = false;
 let block = generateBlock();
+let nextBlock = generateBlock();
 let raf = null;//lets us cancel whatever frame the game ends on
 let timer = 0;
 let counter = 0;
-const canvas = document.getElementById("grid"); //assuming they use a canvas for the grid 
-const context = canvas.getContext('2d');
-const size = 32;
+
+const mainGameCanvas = document.getElementById("grid");
+const mainGameContext = mainGameCanvas.getContext('2d');
+const mainGameBlockSize = 32;
+
+const upcomingBlockCanvas = document.getElementById("upcoming_block");
+const upcomingBlockContext = upcomingBlockCanvas.getContext('2d');
+const upcomingBlockBlockSize = 20;
+
 let time = "";
 const currentGameTime = document.getElementById("current_game_time");
 
@@ -116,19 +125,33 @@ function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the oth
 }
 
 function game() {
-    // console.log("game called");
     raf = requestAnimationFrame(game);
-    context.clearRect(0,0,canvas.width, canvas.height);//clear canvas
+    mainGameContext.clearRect(0,0,mainGameCanvas.width, mainGameCanvas.height);//clear canvas
+    upcomingBlockContext.clearRect(0, 0, upcomingBlockCanvas.width, upcomingBlockCanvas.height);
     
     // draw the initial grid without the block that is currently in play
     for (let row = 0; row < 20; row++) {
         for (let col = 0; col < 10; col++) {
             if (gridMatrix[row][col] != 0) {
                 // if the cell is empty, 
-                context.fillStyle = gridMatrix[row][col];//drawing the grid
+                mainGameContext.fillStyle = gridMatrix[row][col];//drawing the grid
                 //              (posx,      posy,       sizex, sizey)
-                context.fillRect(col * size, row * size, size - 0.5, size - 0.5);
-                // console.log("drawn");
+                mainGameContext.fillRect(col * mainGameBlockSize, row * mainGameBlockSize, mainGameBlockSize - 0.5, mainGameBlockSize - 0.5);
+            }
+        }
+    }
+
+    // draw the upcoming block
+    upcomingBlockContext.fillStyle = nextBlock.colour;
+
+    for (let row = 0; row < nextBlock.matrix.length; row++) {
+        for (let col = 0; col < nextBlock.matrix[row].length; col++) {
+            if (nextBlock.matrix[row][col] != 0) {
+                upcomingBlockContext.fillRect(
+                    col * upcomingBlockBlockSize +20,
+                     row * upcomingBlockBlockSize +30, 
+                     upcomingBlockBlockSize, 
+                    upcomingBlockBlockSize );
             }
         }
     }
@@ -144,15 +167,14 @@ function game() {
     }
 
     // draw the block that is in play here. 
-    context.fillStyle = block.colour;
+    mainGameContext.fillStyle = block.colour;
 
     for (let row = 0; row < block.matrix.length; row++) {
         for (let col = 0; col < block.matrix[row].length; col++) {
             if (block.matrix[row][col] != 0) {
-                context.fillRect(size * (col + block.col), size * (block.row + row), size - 0.5, size - 0.5);
+                mainGameContext.fillRect(mainGameBlockSize * (col + block.col), mainGameBlockSize * (block.row + row), mainGameBlockSize - 0.5, mainGameBlockSize - 0.5);
             }
         }
-
     }
 }
 
@@ -231,11 +253,12 @@ function setBlock() {
     numberofblocks++;
     checkForLines();
     console.log(score);
-    block = generateBlock();
+    block = nextBlock;
+    nextBlock = generateBlock();
 }
 
-document.addEventListener( 'keydown' , e => {
-    if (isGameOver) return;
+document.addEventListener("keydown", e => {
+    if (isGameOver) return; 
     console.log("code", e.code);
 
     if (e.code === "ArrowLeft") {//left
@@ -267,22 +290,35 @@ document.addEventListener( 'keydown' , e => {
             block.row = tempRow;
         }
     }
+
+    if (e.code === "Space") {//spacebar hard drop
+        while (true) {
+            const tempRow = block.row + 1;
+            if (!isMoveValid(block.matrix, tempRow, block.col)) {
+                setBlock();
+                break;
+            } else {
+                block.row = tempRow;
+            }
+        }
+    }
 })
+
 
 function endGame() {
     isGameOver = true;
     cancelAnimationFrame(raf);
-    //TODO: api post request to send the final score (maybe time) and call to the game over page.
-    fetch(
-        "/submitScore", {
-            method: 'POST',
-            body: JSON.stringify({
-                "score": score,
-                "seconds": timer,
-                "timeString": time,
-            })
-        }
-    );
+    let loggedIn = false;
+    
+    apiMessageSender.post('/postScore', {
+        "score": score,
+        "seconds": timer,
+        "timeString": time,
+        "loggedIn" : loggedIn,
+        "user" : "",
+        "uid" : ""
+    });
+
     window.open(`gameOver?score=${score}&seconds=${timer}&timeString=${time}`, "_self");
 }
 

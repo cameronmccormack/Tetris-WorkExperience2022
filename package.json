@@ -12,7 +12,9 @@
   "author": "Softwire Work Experience",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2"
+    "crypto-js": "^4.1.1",
+    "express": "^4.17.1",
+    "mongoose": "^6.2.2"
   },
   "devDependencies": {
     "ava": "^3.13.0",
