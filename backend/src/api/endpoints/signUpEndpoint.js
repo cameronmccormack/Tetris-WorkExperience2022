@@ -49,7 +49,6 @@ export const signUpEndpoint = (req) => {
             }
         }
     })
-    console.log(request.user);
 
     let hashedPw = CryptoJS.SHA256(request.password).toString(CryptoJS.enc.Hex);
 

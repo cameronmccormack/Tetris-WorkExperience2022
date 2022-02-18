@@ -41,7 +41,6 @@ function getUserLogin() {
     return "";
 }
 // function postUser() {
-//     console.log("posting user");
 //     apiMessageSender.post('/signUp', {
 //         "user": document.getElementById("username").value,
 //         "password": document.getElementById("password").value
