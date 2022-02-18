@@ -1,3 +1,5 @@
+import { apiMessageSender } from './api/apiMessageSender.js';
+
 let score = 0;
 const BLOCKS = [
     {
@@ -122,7 +124,6 @@ function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the oth
 }
 
 function game() {
-    // console.log("game called");
     raf = requestAnimationFrame(game);
     mainGameContext.clearRect(0,0,mainGameCanvas.width, mainGameCanvas.height);//clear canvas
     upcomingBlockContext.clearRect(0, 0, upcomingBlockCanvas.width, upcomingBlockCanvas.height);
@@ -135,7 +136,6 @@ function game() {
                 mainGameContext.fillStyle = gridMatrix[row][col];//drawing the grid
                 //              (posx,      posy,       sizex, sizey)
                 mainGameContext.fillRect(col * mainGameBlockSize, row * mainGameBlockSize, mainGameBlockSize - 0.5, mainGameBlockSize - 0.5);
-                // console.log("drawn");
             }
         }
     }
@@ -307,17 +307,17 @@ document.addEventListener("keydown", e => {
 function endGame() {
     isGameOver = true;
     cancelAnimationFrame(raf);
-    //TODO: api post request to send the final score (maybe time) and call to the game over page.
-    fetch(
-        "/submitScore", {
-            method: 'POST',
-            body: JSON.stringify({
-                "score": score,
-                "seconds": timer,
-                "timeString": time,
-            })
-        }
-    );
+    let loggedIn = false;
+    
+    apiMessageSender.post('/postScore', {
+        "score": score,
+        "seconds": timer,
+        "timeString": time,
+        "loggedIn" : loggedIn,
+        "user" : "",
+        "uid" : ""
+    });
+
     window.open(`gameOver?score=${score}&seconds=${timer}&timeString=${time}`, "_self");
 }
 
@@ -326,7 +326,6 @@ function incrementTimer() {
     setTimeout(function() {
         timer++;
         time = formatTime(timer);
-        console.log(time);
         incrementTimer();
     }, 1000);
 }

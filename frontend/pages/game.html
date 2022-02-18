@@ -8,7 +8,6 @@
     <title>Document</title>
 </head>
 <body>
-
     
     <!-- Scores header -->
     <div class="header-container">
@@ -16,8 +15,7 @@
             
         </div>
     </div>
-    
-    
+
     <!-- Main grid -->
     <div class="main_scores-container">
         <h1 class="block_display-title">Next block</h1>
@@ -28,9 +26,10 @@
         </div>
 
         <div class="scores_text">
-            <h1 class="score">Score</h1>
+            <h1 class="score" >Score</h1>
         </div>
         <div class="scores-container">
+            <h1 class="time_placeholder" id="score">0</h1>
         </div>
         
     </div>
@@ -42,7 +41,6 @@
         </div>
 
         <canvas class="tetris_grid-container" id="grid" width="320px" height="640px"></canvas>
-        <script src="static/scripts/game.js"></script>
     </div>
 
     <!-- Timer stuffs -->
@@ -53,10 +51,10 @@
         </div>
     
         <div class="timer-container">
-            <h1 class="time_placeholder">10</h1>
+            <h1 class="time_placeholder" id="timer">00:00</h1>
         </div>
     </div>
-
+    <script type="module" src="static/scripts/game.js"></script>
 
 </body>
     <script src="static\scripts\game.js"></script>
