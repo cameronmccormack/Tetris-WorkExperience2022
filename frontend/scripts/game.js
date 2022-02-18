@@ -182,7 +182,7 @@ function getFramesUntilMoveDown(numberOfBlocks) {
     let maxframes = 40; //starting speed
     let minframes = 5; //fastest speed
     let multiplier = 0.5; //rate of speedup
-    let newframes = Math.ceil(maxframes - (numberOfBlocks*numberOfBlocks*multiplier))
+    let newframes = Math.ceil(maxframes - (numberOfBlocks*multiplier))
     if (newframes < minframes){
         console.log(newframes)
         return minframes;
@@ -307,14 +307,13 @@ document.addEventListener("keydown", e => {
 function endGame() {
     isGameOver = true;
     cancelAnimationFrame(raf);
-    let loggedIn = false;
     
     apiMessageSender.post('/postScore', {
         "score": score,
         "seconds": timer,
         "timeString": time,
-        "loggedIn" : loggedIn,
-        "user" : "",
+        "loggedIn" : getUserLogin() !== "",
+        "user" : getUserLogin(),
         "uid" : ""
     });
 
@@ -339,6 +338,18 @@ function formatTime(timer) {
     let seconds_s = (seconds < 10) ? `0${seconds}` : `${seconds}`;
     
     return `${minutes_s}:${seconds_s}`;
+}
+
+function getUserLogin() {
+    let name = "userlogin";
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0;i < ca.length;i++) {
+        let c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return "";
 }
 
 //running the game.
