@@ -52,7 +52,7 @@ The schedule for the week is as follows (rough times only, these will be adaptab
 | **Friday**                                                                       |
 | 10:00  | Standup meeting                                                         |
 | 10:30  | Code development                                                        |
-| 12:00  | "Guest" Presentation: Mobile App Development (Cameron McCormack)        |
+| 12:15  | "Guest" Presentation: Mobile App Development (Cameron McCormack)        |
 | 12:30  | Lunch break                                                             |
 | 13:30  | Code development                                                        |
 | 14:30  | Presentation preparation                                                |

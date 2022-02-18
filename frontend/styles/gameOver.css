@@ -3,12 +3,16 @@
 body {
     background-color: #343131;
 }
+
+html, body {margin: 0; height: 100%; overflow: hidden}
+
 .main-title {
     color: #cc0f0f;
     text-align: center;
-    font-size: 80px;
+    font-size: 55px;
     font-family:"Press Start 2P", cursive;
     padding: 120px 5px;
+    margin: 0px 0px;
 }
 
 .main-title h1{
@@ -28,10 +32,10 @@ body {
     text-decoration: none;
     display: inline-block;
     font-size: 32px;
-    margin: 4px 4px;
+    margin: 10px 10px;
     transition-duration: 0.2s;
 }
 
 .button:hover {
-    box-shadow: 0 12px 12px 0 #191818,0 17px 17px 0 #191818;
+    box-shadow: 0 12px 12px 0 #191818,0 0px 20px 0 #191818;
 }

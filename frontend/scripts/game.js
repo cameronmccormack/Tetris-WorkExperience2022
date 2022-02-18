@@ -47,6 +47,7 @@ const BLOCKS = [
         colour: "brown",
         name: "O-Piece"
     }
+    
 ]
 
 // gridMatrix is represented as either 0 or the colour
