@@ -1,7 +1,8 @@
-import express from 'express'
-import { fileURLToPath } from 'url'
-import path from 'path'
-import { apiRouter } from './api/apiRouter.js'
+import express from 'express';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import { apiRouter } from './api/apiRouter.js';
+// import  mysql  from 'mysql2';
 
 /*
 This is the entry point of our application.
@@ -9,7 +10,7 @@ We use a library called Express to set up our web server.
 */
 
 // Create the app
-const app = express()
+const app = express();
 
 // Set the port we use to receive incoming web traffic.
 // On the live server, Heroku sets the port in an environment variable.

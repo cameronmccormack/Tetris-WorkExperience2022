@@ -1,3 +1,5 @@
+import { apiMessageSender } from './api/apiMessageSender.js';
+
 let score = 0;
 const BLOCKS = [
     {
@@ -5,31 +7,31 @@ const BLOCKS = [
                 [1,1,1,1],
                 [0,0,0,0],
                 [0,0,0,0]],
-        colour:"red",
+        colour:"turquoise",
         name: "I-Piece"
     },{
         matrix:[[1,0,0],
                 [1,1,1],
                 [0,0,0]],
-        colour:"orange",
+        colour:"blue",
         name: "J-Piece"
     },{
         matrix:[[0,0,1],
                 [1,1,1],
                 [0,0,0]],
-        colour:"yellow",
+        colour:"orange",
         name: "L-Piece"
     },{
         matrix:[[1,1,0],
                 [0,1,1],
                 [0,0,0]],
-        colour:"green",
+        colour:"red",
         name: "Z-Piece"
     },{
         matrix:[[0,1,1],
                 [1,1,0],
                 [0,0,0]],
-        colour:"blue",
+        colour:"green",
         name: "S-Piece"
     },{
         matrix:[[0,1,0],
@@ -42,7 +44,7 @@ const BLOCKS = [
                 [0,1,1,0],
                 [0,1,1,0],
                 [0,0,0,0]],
-        colour: "brown",
+        colour: "yellow",
         name: "O-Piece"
     }
     
@@ -67,6 +69,8 @@ const upcomingBlockContext = upcomingBlockCanvas.getContext('2d');
 const upcomingBlockBlockSize = 20;
 
 let time = "";
+const currentGameTime = document.getElementById("current_game_time");
+const currentScore = document.getElementById("score");
 
 let isGamePaused = false;
 const pausedLabel = document.getElementById('pause_text');
@@ -125,7 +129,6 @@ function isMoveValid(matrix, blockRow, blockCol) {//matrix is the block. the oth
 }
 
 function game() {
-    // console.log("game called");
     raf = requestAnimationFrame(game);
 
     if (!isGamePaused) {
@@ -186,9 +189,9 @@ function game() {
 function getFramesUntilMoveDown(numberOfBlocks) {
     //you can edit the rate of speed increase here (increases as number of blocks increase)
     let maxframes = 40; //starting speed
-    let minframes = 5; //fastest speed
-    let multiplier = 0.5; //rate of speedup
-    let newframes = Math.ceil(maxframes - (numberOfBlocks*numberOfBlocks*multiplier))
+    let minframes = 10; //fastest speed
+    let multiplier = 0.1; //rate of speedup
+    let newframes = Math.ceil(maxframes - (numberOfBlocks*multiplier))
     if (newframes < minframes){
         console.log(newframes)
         return minframes;
@@ -224,6 +227,10 @@ function checkForLines() {
     scoring(lineCounter);
 }
 
+// Plan for development:
+//   1. Make the scoring element on the game page show the value of score whenever it is updated
+//   2. Take a look at the scoring system and decide if you're happy with it
+
 function scoring(count) {
     switch (count) {
         case 1: score += 40; break;
@@ -232,6 +239,8 @@ function scoring(count) {
         case 4: score += 1200; break;
         default: break;
     }
+
+    currentScore.innerHTML = score;
 }
 
 //when the block has collided, then the block is set onto the grid. the grid matrix of the game is altered and a new block is created ready for the next game loop.
@@ -323,17 +332,17 @@ document.addEventListener("keydown", e => {
 function endGame() {
     isGameOver = true;
     cancelAnimationFrame(raf);
-    //TODO: api post request to send the final score (maybe time) and call to the game over page.
-    fetch(
-        "/submitScore", {
-            method: 'POST',
-            body: JSON.stringify({
-                "score": score,
-                "seconds": timer,
-                "timeString": time,
-            })
-        }
-    );
+    let loggedIn = false;
+    
+    apiMessageSender.post('/postScore', {
+        "score": score,
+        "seconds": timer,
+        "timeString": time,
+        "loggedIn" : loggedIn,
+        "user" : "",
+        "uid" : ""
+    });
+
     window.open(`gameOver?score=${score}&seconds=${timer}&timeString=${time}`, "_self");
 }
 
@@ -342,20 +351,25 @@ function incrementTimer() {
     setTimeout(function() {
         timer++;
         time = formatTime(timer);
+        currentGameTime.innerHTML = time;
         console.log(time);
         incrementTimer();
     }, 1000);
 }
 
-// format time (in seconds) to a readable string
-function formatTime(timer) {
-    let minutes = Math.floor(timer / 60);
-    let seconds = timer % 60;
+function formatTime(timeInSeconds) {
+    let numberOfMinutes = Math.floor(timeInSeconds / 60).toString();
+    let numberOfSeconds = (timeInSeconds % 60).toString();
 
-    let minutes_s = (minutes < 10) ? `0${minutes}` : `${minutes}`;
-    let seconds_s = (seconds < 10) ? `0${seconds}` : `${seconds}`;
-    
-    return `${minutes_s}:${seconds_s}`;
+    if (numberOfMinutes.length < 2) {
+        numberOfMinutes = "0" + numberOfMinutes;
+    }
+
+    if (numberOfSeconds.length < 2) {
+        numberOfSeconds = "0" + numberOfSeconds;
+    }
+
+    return `${numberOfMinutes}:${numberOfSeconds}`
 }
 
 //running the game.

@@ -2,6 +2,8 @@
 /* DO NOT TOUCH */
 body{
     display: flex;
+    overflow-y: hidden;
+    white-space: none;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -80,6 +82,7 @@ html, body {margin: 0; height: 100%; overflow: hidden}
 }
 .time_text-container{
     margin-left: 30px;
+    margin-right: 30px;
 }
 .time_text{
     display: flex;
@@ -100,6 +103,12 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     color: white;
 }
 
+#current_game_time{
+    color:white;
+    margin-top: 40px;
+    margin-left: 30px;
+}
+
 /* Scores */
 @import url(https://fonts.googleapis.com/css?family=Bowlby+One+SC);
 .scores-container{
@@ -113,7 +122,7 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     border: solid 10px;
     border-color: white;
 }
-.score{
+#score{
     display: flex;
     justify-content: center;
     font-family: "Bowlby One SC";
@@ -121,7 +130,13 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     font-weight: 600;
     color: white;
     text-align: center;
-    margin-right: 30px;
+    margin-top: 10px;
+}
+
+#current_game_score{
+        color:white;
+        margin-top: 40px;
+        margin-left: 30px;
 }
 .block_display-container{
     display: flex;
@@ -145,7 +160,6 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     font-size: 25px;
     width: 120px;
 }
-
 
 /* Font stuffs */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap');
@@ -203,3 +217,4 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     src: url(https://fonts.gstatic.com/s/poppins/v19/pxiByp8kv8JHgFVrLDD4Z1xlFQ.woff2) format('woff2');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
   }
+}
