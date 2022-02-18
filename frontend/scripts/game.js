@@ -332,14 +332,13 @@ document.addEventListener("keydown", e => {
 function endGame() {
     isGameOver = true;
     cancelAnimationFrame(raf);
-    let loggedIn = false;
     
     apiMessageSender.post('/postScore', {
         "score": score,
         "seconds": timer,
         "timeString": time,
-        "loggedIn" : loggedIn,
-        "user" : "",
+        "loggedIn" : getUserLogin() !== "",
+        "user" : getUserLogin(),
         "uid" : ""
     });
 
@@ -370,6 +369,18 @@ function formatTime(timeInSeconds) {
     }
 
     return `${numberOfMinutes}:${numberOfSeconds}`
+}
+
+function getUserLogin() {
+    let name = "userlogin";
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0;i < ca.length;i++) {
+        let c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return "";
 }
 
 //running the game.

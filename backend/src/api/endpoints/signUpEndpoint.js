@@ -36,12 +36,8 @@ export const signUpEndpoint = (req) => {
     let uid = Math.round(Math.random() * 10000000);
 
     UserModel.countDocuments({"uid":uid}, (e, count) => {
-        while (count > 0) {
+        if (count !== 0)
             uid = Math.round(Math.random() * 10000000);
-            UserModel.countDocuments({"uid":uid}, (e, c) => {
-                count = c;
-            })
-        }
     })
 
     // ensure username is not taken
@@ -63,6 +59,8 @@ export const signUpEndpoint = (req) => {
     }
 
     const newDoc = UserModel.create(data);
+
+
 
     return {
         message: "doc created",
