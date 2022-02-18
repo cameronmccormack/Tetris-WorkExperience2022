@@ -64,7 +64,7 @@ const mainGameBlockSize = 32;
 
 const upcomingBlockCanvas = document.getElementById("upcoming_block");
 const upcomingBlockContext = upcomingBlockCanvas.getContext('2d');
-const upcomingBlockBlockSize = 8;
+const upcomingBlockBlockSize = 20;
 
 let time = "";
 
@@ -146,7 +146,7 @@ function game() {
     for (let row = 0; row < nextBlock.matrix.length; row++) {
         for (let col = 0; col < nextBlock.matrix[row].length; col++) {
             if (nextBlock.matrix[row][col] != 0) {
-                upcomingBlockContext.fillRect(col * upcomingBlockBlockSize +40, row * upcomingBlockBlockSize +40, upcomingBlockBlockSize , upcomingBlockBlockSize );
+                upcomingBlockContext.fillRect(col * upcomingBlockBlockSize +20, row * upcomingBlockBlockSize +30, upcomingBlockBlockSize, upcomingBlockBlockSize );
             }
         }
     }
