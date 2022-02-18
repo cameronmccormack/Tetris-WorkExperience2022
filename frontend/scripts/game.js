@@ -190,7 +190,7 @@ function getFramesUntilMoveDown(numberOfBlocks) {
     //you can edit the rate of speed increase here (increases as number of blocks increase)
     let maxframes = 40; //starting speed
     let minframes = 10; //fastest speed
-    let multiplier = 0.1; //rate of speedup
+    let multiplier = 0.15; //rate of speedup
     let newframes = Math.ceil(maxframes - (numberOfBlocks*multiplier))
     if (newframes < minframes){
         console.log(newframes)
