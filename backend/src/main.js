@@ -59,6 +59,3 @@ app.use('/api', apiRouter)
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)
 })
-
-// username: admin
-// password: rbKaWFKXPJuJktzF
